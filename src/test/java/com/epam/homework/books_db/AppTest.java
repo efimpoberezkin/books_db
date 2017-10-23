@@ -7,12 +7,12 @@ import com.epam.homework.books_db.serialization.serializers.custom_serializer.Cu
 import com.epam.homework.books_db.serialization.serializers.standard_serializer.StandardSerializer;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class AppTest {
 
-    private static final String STANDARD_SERIALIZER_FILENAME = "dataset.ser";
-    private static final String CUSTOM_SERIALIZER_FILENAME = "dataset.txt";
+    private static final String STANDARD_SERIALIZER_FILENAME = "src\\test\\resources\\standard_serializer\\dataset.ser";
+    private static final String CUSTOM_SERIALIZER_FILENAME = "src\\test\\resources\\custom_serializer\\dataset.txt";
 
     @Test
     public void testStandardSerializer() {

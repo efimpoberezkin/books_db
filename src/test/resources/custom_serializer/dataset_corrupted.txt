@@ -1,0 +1,118 @@
+<authors>
+  <author>
+    code: 0
+    name: Cervantes
+    birth: 1980-01-13
+    death: null
+    gender: MALE
+  </author>
+  <author>
+    code: 1
+    name: Christie
+    birth: 1942-05-24
+    death: null
+    gender: FEMALE
+  </author>
+  <author>
+    code: 2
+    name: Shakespeare
+    birth: 1958-08-15
+    death: 2012-03-15
+    gender: MALE
+  </author>
+</authors>
+<books>
+  <book>
+    code: 3
+    name: Don Quixote
+    year: 2015
+    <authors>
+      <author>
+        code: 0
+      </author>
+    </authors>
+  </book>
+  <book>
+    code: 4
+    name: The Adventures of Huckleberry Finn
+    year: 2007
+    <authors>
+      <author>
+        code: 5
+        name: Twain
+        birth: 1953-03-07
+        death: null
+        gender: MALE
+      </author>
+    </authors>
+  </book>
+  <book>
+    code: 6
+    name: Macbeth
+    year: 2012
+    <authors>
+      <author>
+        code: 2
+      </author>
+    </authors>
+  </book>
+  <book>
+    code: 7
+    name: Ten Little Niggers
+    year: 2009
+    <authors>
+      <author>
+        code: 0
+      </author>
+      <author>
+        code: 1
+      </author>
+    </authors>
+  </book>
+</books>
+<publishers>
+  <publisher>
+    code: 8
+    name: HarperCollins
+    <books>
+      <book>
+        code: a
+      </book>
+      <book>
+        code: 9
+        name: Murder on the Orient Express
+        year: 2003
+        <authors>
+          <author>
+            code: 1
+          </author>
+          <author>
+            code: 10
+            name: Akhmatova
+            birth: 1946-09-18
+            death: 2014-11-07
+            gender: FEMALE
+          </author>
+        </authors>
+      </book>
+      <book>
+        code: 7
+      </book>
+    </books>
+  </publisher>
+  <publisher>
+    code: 11
+    name: Pearson Education
+    <books>
+      <book>
+        code: 6
+      </book>
+      <book>
+        code: 4
+      </book>
+      <book>
+        code: 9
+      </book>
+    </books>
+  </publisher>
+</publishers>

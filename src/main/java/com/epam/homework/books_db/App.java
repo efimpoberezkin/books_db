@@ -9,8 +9,8 @@ import com.epam.homework.books_db.serialization.serializers.standard_serializer.
 
 public class App {
 
-    private static final String STANDARD_SERIALIZER_FILENAME = "dataset.ser";
-    private static final String CUSTOM_SERIALIZER_FILENAME = "dataset.txt";
+    private static final String STANDARD_SERIALIZER_FILENAME = "src\\main\\resources\\app\\dataset.ser";
+    private static final String CUSTOM_SERIALIZER_FILENAME = "src\\main\\resources\\app\\dataset.txt";
 
     public static void main(String[] args) {
         performTests();
