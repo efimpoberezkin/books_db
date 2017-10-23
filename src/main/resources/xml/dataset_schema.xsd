@@ -1,0 +1,101 @@
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="birth" type="xs:date"/>
+    <xs:element name="death" type="xs:date"/>
+
+    <xs:element name="gender">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="MALE"/>
+                <xs:enumeration value="FEMALE"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+
+    <xs:element name="author_data">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="name"/>
+                <xs:element ref="birth"/>
+                <xs:element ref="death" minOccurs="0"/>
+                <xs:element ref="gender"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="author">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="author_data" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute type="xs:unsignedInt" name="id" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="authors">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="author" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="year" type="xs:integer"/>
+
+    <xs:element name="book_data">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="name"/>
+                <xs:element ref="year"/>
+                <xs:element ref="authors"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="book">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="book_data" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute type="xs:unsignedInt" name="id" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="books">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="book" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="publisher">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="name"/>
+                <xs:element ref="books"/>
+            </xs:sequence>
+            <xs:attribute type="xs:unsignedInt" name="id" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="publishers">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="publisher" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="dataset">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="authors"/>
+                <xs:element ref="books"/>
+                <xs:element ref="publishers"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

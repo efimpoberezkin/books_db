@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<dataset>
+    <authors>
+        <author id="0">
+            <author_data>
+                <name>Cervantes</name>
+                <birth>1980-01-13</birth>
+                <gender>MALE</gender>
+            </author_data>
+        </author>
+        <author id="1">
+            <author_data>
+                <name>Christie</name>
+                <birth>1942-05-24</birth>
+                <gender>FEMALE</gender>
+            </author_data>
+        </author>
+        <author id="2">
+            <author_data>
+                <name>Tolstoy</name>
+                <birth>1979-12-05</birth>
+                <gender>MALE</gender>
+            </author_data>
+        </author>
+        <author id="3">
+            <author_data>
+                <name>Shakespeare</name>
+                <birth>1958-08-15</birth>
+                <death>2012-03-15</death>
+                <gender>MALE</gender>
+            </author_data>
+        </author>
+        <author id="4">
+            <author_data>
+                <name>Homer</name>
+                <birth>1951-03-12</birth>
+                <death>2016-07-24</death>
+                <gender>MALE</gender>
+            </author_data>
+        </author>
+        <author id="5">
+            <author_data>
+                <name>Tsvetaeva</name>
+                <birth>1953-04-25</birth>
+                <gender>FEMALE</gender>
+            </author_data>
+        </author>
+        <author id="6">
+            <author_data>
+                <name>Yesenin</name>
+                <birth>1937-01-26</birth>
+                <gender>MALE</gender>
+            </author_data>
+        </author>
+        <author id="7">
+            <author_data>
+                <name>Rowling</name>
+                <birth>1955-10-15</birth>
+                <death>2007-12-03</death>
+                <gender>FEMALE</gender>
+            </author_data>
+        </author>
+    </authors>
+    <books>
+        <book id="8">
+            <book_data>
+                <name>Don Quixote</name>
+                <year>2015</year>
+                <authors>
+                    <author id="0"/>
+                </authors>
+            </book_data>
+        </book>
+        <book id="9">
+            <book_data>
+                <name>War and Peace</name>
+                <year>2004</year>
+                <authors>
+                    <author id="2"/>
+                </authors>
+            </book_data>
+        </book>
+        <book id="10">
+            <book_data>
+                <name>The Odyssey</name>
+                <year>1993</year>
+                <authors>
+                    <author id="4"/>
+                </authors>
+            </book_data>
+        </book>
+        <book id="11">
+            <book_data>
+                <name>The Adventures of Huckleberry Finn</name>
+                <year>2007</year>
+                <authors>
+                    <author id="12">
+                        <author_data>
+                            <name>Twain</name>
+                            <birth>1953-03-07</birth>
+                            <gender>MALE</gender>
+                        </author_data>
+                    </author>
+                </authors>
+            </book_data>
+        </book>
+        <book id="13">
+            <book_data>
+                <name>Harry Potter</name>
+                <year>1997</year>
+                <authors>
+                    <author id="7"/>
+                </authors>
+            </book_data>
+        </book>
+        <book id="14">
+            <book_data>
+                <name>Macbeth</name>
+                <year>2012</year>
+                <authors>
+                    <author id="3"/>
+                </authors>
+            </book_data>
+        </book>
+        <book id="15">
+            <book_data>
+                <name>Ten Little Niggers</name>
+                <year>2009</year>
+                <authors>
+                    <author id="0"/>
+                    <author id="1"/>
+                </authors>
+            </book_data>
+        </book>
+    </books>
+    <publishers>
+        <publisher id="16">
+            <name>HarperCollins</name>
+            <books>
+                <book id="8"/>
+                <book id="17">
+                    <book_data>
+                        <name>Murder on the Orient Express</name>
+                        <year>2003</year>
+                        <authors>
+                            <author id="1"/>
+                            <author id="18">
+                                <author_data>
+                                    <name>Akhmatova</name>
+                                    <birth>1946-09-18</birth>
+                                    <death>2014-11-07</death>
+                                    <gender>FEMALE</gender>
+                                </author_data>
+                            </author>
+                        </authors>
+                    </book_data>
+                </book>
+                <book id="19">
+                    <book_data>
+                        <name>Hamlet</name>
+                        <year>1985</year>
+                        <authors>
+                            <author id="3"/>
+                        </authors>
+                    </book_data>
+                </book>
+                <book id="15"/>
+            </books>
+        </publisher>
+        <publisher id="20">
+            <name>Pan Macmillan</name>
+            <books>
+                <book id="19"/>
+                <book id="10"/>
+                <book id="21">
+                    <book_data>
+                        <name>Poems</name>
+                        <year>1973</year>
+                        <authors>
+                            <author id="18"/>
+                            <author id="5"/>
+                            <author id="6"/>
+                        </authors>
+                    </book_data>
+                </book>
+                <book id="11"/>
+            </books>
+        </publisher>
+        <publisher id="22">
+            <name>Pearson Education</name>
+            <books>
+                <book id="21"/>
+                <book id="13"/>
+                <book id="14"/>
+            </books>
+        </publisher>
+        <publisher id="23">
+            <name>Oxford University Press</name>
+            <books>
+                <book id="9"/>
+                <book id="19"/>
+                <book id="8"/>
+                <book id="14"/>
+            </books>
+        </publisher>
+    </publishers>
+</dataset>
