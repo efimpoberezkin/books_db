@@ -10,6 +10,7 @@ import java.io.*;
 
 public class StandardSerializer implements Serializer {
 
+    @Override
     public void save(Dataset dataset, String filename) throws SerializerException {
         SerializableDataset serializableDataset = DatasetTransformer.transformIntoSerializable(dataset);
         try {
@@ -22,6 +23,7 @@ public class StandardSerializer implements Serializer {
         }
     }
 
+    @Override
     public Dataset load(String filename) throws SerializerException {
         SerializableDataset serializableDataset;
         try {
