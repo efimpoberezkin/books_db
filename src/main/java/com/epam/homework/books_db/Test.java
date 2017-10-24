@@ -17,7 +17,8 @@ public class Test {
     }
 
     private static void performTests() {
-        Dataset exampleDataset = DatasetInitializer.getExampleDataset();
+        //Dataset exampleDataset = DatasetInitializer.getExampleDataset();
+        Dataset exampleDataset = DatasetInitializer.getAnotherExampleDataset();
         //DatasetPrinter.print(exampleDataset);
 
         System.out.println("\n*** Testing standard serializer ***");
