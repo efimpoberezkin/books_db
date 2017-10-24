@@ -14,7 +14,7 @@ public class StandardSerializer implements Serializer {
     public void save(Dataset dataset, String filename) throws SerializerException {
         SerializableDataset serializableDataset = DatasetTransformer.transformIntoSerializable(dataset);
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename));
+            ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filename)));
             out.writeObject(serializableDataset);
             out.flush();
             out.close();
@@ -27,7 +27,7 @@ public class StandardSerializer implements Serializer {
     public Dataset load(String filename) throws SerializerException {
         SerializableDataset serializableDataset;
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
+            ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(filename)));
             serializableDataset = (SerializableDataset) in.readObject();
             in.close();
         } catch (IOException | ClassNotFoundException e) {
