@@ -31,9 +31,9 @@ import static com.epam.homework.books_db.serialization.serializers.custom_serial
 
 class Writer {
 
-    static private Map<Object, Integer> serializationMap;
-    static private int objectCounter;
-    static private String indent;
+    private static Map<Object, Integer> serializationMap;
+    private static int objectCounter;
+    private static String indent;
 
     static void write(Dataset dataset, PrintWriter out) {
         serializationMap = new HashMap<>();
