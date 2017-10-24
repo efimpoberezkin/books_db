@@ -11,9 +11,9 @@ import com.epam.homework.books_db.serialization.entity_model.PublisherEntity;
 import java.util.*;
 import java.util.function.Function;
 
-public class DatasetTransformer {
+class DatasetTransformer {
 
-    public static SerializableDataset transformIntoSerializable(Dataset dataset) {
+    static SerializableDataset transformIntoSerializable(Dataset dataset) {
         List<Author> authors = dataset.getAuthors();
         List<Book> books = dataset.getBooks();
         List<Publisher> publishers = dataset.getPublishers();
@@ -82,7 +82,7 @@ public class DatasetTransformer {
         );
     }
 
-    public static Dataset transformIntoDomain(SerializableDataset serializableDataset) {
+    static Dataset transformIntoDomain(SerializableDataset serializableDataset) {
         List<AuthorEntity> authorEntities = serializableDataset.getAuthors();
         List<BookEntity> bookEntities = serializableDataset.getBooks();
         List<PublisherEntity> publisherEntities = serializableDataset.getPublishers();
