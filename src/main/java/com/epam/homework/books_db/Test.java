@@ -31,15 +31,15 @@ public class Test {
         serializer.save(dataset, filename);
         System.out.println("Dataset serialized");
 
-//        System.out.println("\nDeserializing dataset...");
-//        Dataset loadedDataset = serializer.load(filename);
-//        System.out.println("Dataset deserialized");
-//
-//        System.out.println("\nComparing deserialized dataset with dataset that was serialized...");
-//        if (loadedDataset.equals(dataset)) {
-//            System.out.println("Deserialized dataset is correct");
-//        } else {
-//            System.out.println("Deserialized dataset is not correct");
-//        }
+        System.out.println("\nDeserializing dataset...");
+        Dataset loadedDataset = serializer.load(filename);
+        System.out.println("Dataset deserialized");
+
+        System.out.println("\nComparing deserialized dataset with dataset that was serialized...");
+        if (loadedDataset.equals(dataset)) {
+            System.out.println("Deserialized dataset is correct");
+        } else {
+            System.out.println("Deserialized dataset is not correct");
+        }
     }
 }
