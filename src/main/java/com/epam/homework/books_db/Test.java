@@ -2,6 +2,7 @@ package com.epam.homework.books_db;
 
 import com.epam.homework.books_db.dataset.DatasetInitializer;
 import com.epam.homework.books_db.dataset.Dataset;
+import com.epam.homework.books_db.dataset.DatasetPrinter;
 import com.epam.homework.books_db.serialization.serializers.Serializer;
 import com.epam.homework.books_db.serialization.serializers.custom_serializer.CustomSerializer;
 import com.epam.homework.books_db.serialization.serializers.standard_serializer.StandardSerializer;
@@ -41,5 +42,7 @@ public class Test {
         } else {
             System.out.println("Deserialized dataset is not correct");
         }
+        
+        //DatasetPrinter.print(loadedDataset);
     }
 }
