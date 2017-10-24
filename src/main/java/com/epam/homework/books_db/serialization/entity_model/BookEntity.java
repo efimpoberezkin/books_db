@@ -3,7 +3,6 @@ package com.epam.homework.books_db.serialization.entity_model;
 import java.io.Serializable;
 import java.time.Year;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class BookEntity implements Serializable {

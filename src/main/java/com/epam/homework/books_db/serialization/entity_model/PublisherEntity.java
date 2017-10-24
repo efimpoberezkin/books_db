@@ -1,10 +1,7 @@
 package com.epam.homework.books_db.serialization.entity_model;
 
-import com.epam.homework.books_db.model.Book;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class PublisherEntity implements Serializable {

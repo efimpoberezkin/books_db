@@ -4,7 +4,6 @@ import com.epam.homework.books_db.model.Gender;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Optional;
 
 public class AuthorEntity implements Serializable {
 
