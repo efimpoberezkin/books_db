@@ -7,8 +7,6 @@ import com.epam.homework.books_db.serialization.validation.ValidationException;
 import com.epam.homework.books_db.serialization.validation.Validator;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CustomSerializer implements Serializer {
 
