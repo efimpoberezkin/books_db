@@ -29,7 +29,7 @@ public class Validator {
     }
 
     private static void validateAuthor(Author author) throws ValidationException {
-        if (author.getName().equals("")) {
+        if ("".equals(author.getName())) {
             throw new ValidationException("Author has no name");
         }
 
@@ -54,7 +54,7 @@ public class Validator {
     }
 
     private static void validateBook(Book book) throws ValidationException {
-        if (book.getName().equals("")) {
+        if ("".equals(book.getName())) {
             throw new ValidationException("Book has no name");
         }
 
@@ -83,7 +83,7 @@ public class Validator {
     }
 
     private static void validatePublisher(Publisher publisher) throws ValidationException {
-        if (publisher.getName().equals("")) {
+        if ("".equals(publisher.getName())) {
             throw new ValidationException("Publisher has no name");
         }
 
