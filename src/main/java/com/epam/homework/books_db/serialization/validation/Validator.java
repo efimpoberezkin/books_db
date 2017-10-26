@@ -12,10 +12,10 @@ import java.util.List;
 
 public class Validator {
 
-    private static List<Author> validatedAuthors;
-    private static List<Book> validatedBooks;
+    private List<Author> validatedAuthors;
+    private List<Book> validatedBooks;
 
-    public static void validateDataset(Dataset dataset) throws ValidationException {
+    public void validateDataset(Dataset dataset) throws ValidationException {
         List<Author> authors = dataset.getAuthors();
         List<Book> books = dataset.getBooks();
         List<Publisher> publishers = dataset.getPublishers();
@@ -23,12 +23,12 @@ public class Validator {
         validatedAuthors = new ArrayList<>();
         validatedBooks = new ArrayList<>();
 
-        authors.forEach(Validator::validateAuthor);
-        books.forEach(Validator::validateBook);
-        publishers.forEach(Validator::validatePublisher);
+        authors.forEach(this::validateAuthor);
+        books.forEach(this::validateBook);
+        publishers.forEach(this::validatePublisher);
     }
 
-    private static void validateAuthor(Author author) throws ValidationException {
+    private void validateAuthor(Author author) throws ValidationException {
         if ("".equals(author.getName())) {
             throw new ValidationException("Author has no name");
         }
@@ -53,7 +53,7 @@ public class Validator {
         validatedAuthors.add(author);
     }
 
-    private static void validateBook(Book book) throws ValidationException {
+    private void validateBook(Book book) throws ValidationException {
         if ("".equals(book.getName())) {
             throw new ValidationException("Book has no name");
         }
@@ -82,7 +82,7 @@ public class Validator {
         validatedBooks.add(book);
     }
 
-    private static void validatePublisher(Publisher publisher) throws ValidationException {
+    private void validatePublisher(Publisher publisher) throws ValidationException {
         if ("".equals(publisher.getName())) {
             throw new ValidationException("Publisher has no name");
         }

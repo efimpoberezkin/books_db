@@ -35,7 +35,7 @@ public class StandardSerializer implements Serializer {
         }
         Dataset loadedDataset = new DatasetTransformer().transformIntoDomain(serializableDataset);
         try {
-            Validator.validateDataset(loadedDataset);
+            new Validator().validateDataset(loadedDataset);
         } catch (ValidationException e) {
             throw new SerializerException("Could not validate loaded dataset, reason: " + e.getMessage(), e);
         }

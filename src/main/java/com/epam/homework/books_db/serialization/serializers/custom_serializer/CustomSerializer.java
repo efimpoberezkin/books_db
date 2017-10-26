@@ -28,7 +28,7 @@ public class CustomSerializer implements Serializer {
             throw new SerializerException("Could not load dataset", e);
         }
         try {
-            Validator.validateDataset(loadedDataset);
+            new Validator().validateDataset(loadedDataset);
         } catch (ValidationException e) {
             throw new SerializerException("Could not validate loaded dataset, reason: " + e.getMessage(), e);
         }
