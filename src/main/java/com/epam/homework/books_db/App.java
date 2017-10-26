@@ -7,7 +7,7 @@ import com.epam.homework.books_db.serialization.serializers.Serializer;
 import com.epam.homework.books_db.serialization.serializers.custom_serializer.CustomSerializer;
 import com.epam.homework.books_db.serialization.serializers.standard_serializer.StandardSerializer;
 
-public class Test {
+public class App {
 
     private static final String STANDARD_SERIALIZER_FILENAME = "dataset.ser";
     private static final String CUSTOM_SERIALIZER_FILENAME = "dataset.txt";
