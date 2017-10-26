@@ -31,11 +31,11 @@ import static com.epam.homework.books_db.serialization.serializers.custom_serial
 
 class Writer {
 
-    private static Map<Object, Integer> serializationMap;
-    private static int objectCounter;
-    private static String indent;
+    private Map<Object, Integer> serializationMap;
+    private int objectCounter;
+    private String indent;
 
-    static void write(Dataset dataset, PrintWriter out) {
+    void write(Dataset dataset, PrintWriter out) {
         serializationMap = new HashMap<>();
         objectCounter = 0;
         indent = "";
@@ -49,7 +49,7 @@ class Writer {
         printPublishers(publishers, out);
     }
 
-    private static void printAuthors(List<Author> authors, PrintWriter out) {
+    private void printAuthors(List<Author> authors, PrintWriter out) {
         out.println(indent + AUTHORS_START);
         indent += "  ";
         for (Author author : authors) {
@@ -59,7 +59,7 @@ class Writer {
         out.println(indent + AUTHORS_END);
     }
 
-    private static void printAuthor(Author author, PrintWriter out) {
+    private void printAuthor(Author author, PrintWriter out) {
         out.println(indent + AUTHOR_START);
         indent += "  ";
         if (serializationMap.containsKey(author)) {
@@ -77,7 +77,7 @@ class Writer {
         out.println(indent + AUTHOR_END);
     }
 
-    private static void printBooks(List<Book> books, PrintWriter out) {
+    private void printBooks(List<Book> books, PrintWriter out) {
         out.println(indent + BOOKS_START);
         indent += "  ";
         for (Book book : books) {
@@ -87,7 +87,7 @@ class Writer {
         out.println(indent + BOOKS_END);
     }
 
-    private static void printBook(Book book, PrintWriter out) {
+    private void printBook(Book book, PrintWriter out) {
         out.println(indent + BOOK_START);
         indent += "  ";
         if (serializationMap.containsKey(book)) {
@@ -105,7 +105,7 @@ class Writer {
         out.println(indent + BOOK_END);
     }
 
-    private static void printPublishers(List<Publisher> publishers, PrintWriter out) {
+    private void printPublishers(List<Publisher> publishers, PrintWriter out) {
         out.println(indent + PUBLISHERS_START);
         indent += "  ";
         for (Publisher publisher : publishers) {
@@ -115,7 +115,7 @@ class Writer {
         out.println(indent + PUBLISHERS_END);
     }
 
-    private static void printPublisher(Publisher publisher, PrintWriter out) {
+    private void printPublisher(Publisher publisher, PrintWriter out) {
         out.println(indent + PUBLISHER_START);
         indent += "  ";
         if (serializationMap.containsKey(publisher)) {

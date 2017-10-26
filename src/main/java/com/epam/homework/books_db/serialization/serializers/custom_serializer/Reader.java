@@ -35,11 +35,11 @@ import static com.epam.homework.books_db.serialization.serializers.custom_serial
 
 class Reader {
 
-    private static final String FILE_CORRUPTED = "File was corrupted";
+    private final String FILE_CORRUPTED = "File was corrupted";
 
-    private static Map<Integer, Object> deserializationMap;
+    private Map<Integer, Object> deserializationMap;
 
-    static Dataset read(BufferedReader in) throws SerializerException, IOException {
+    Dataset read(BufferedReader in) throws SerializerException, IOException {
         deserializationMap = new HashMap<>();
 
         List<Author> authors = readAuthors(in);
@@ -51,7 +51,7 @@ class Reader {
         return new Dataset(authors, books, publishers);
     }
 
-    private static List<Author> readAuthors(BufferedReader in) throws SerializerException, IOException {
+    private List<Author> readAuthors(BufferedReader in) throws SerializerException, IOException {
         checkBoundary(in.readLine().trim(), AUTHORS_START);
         List<Author> authors = new ArrayList<>();
 
@@ -63,7 +63,7 @@ class Reader {
         return authors;
     }
 
-    private static Author readAuthor(String firstLine, BufferedReader in) throws SerializerException, IOException {
+    private Author readAuthor(String firstLine, BufferedReader in) throws SerializerException, IOException {
         checkBoundary(firstLine, AUTHOR_START);
         Author author;
 
@@ -97,7 +97,7 @@ class Reader {
         return author;
     }
 
-    private static List<Book> readBooks(BufferedReader in) throws SerializerException, IOException {
+    private List<Book> readBooks(BufferedReader in) throws SerializerException, IOException {
         checkBoundary(in.readLine().trim(), BOOKS_START);
         List<Book> books = new ArrayList<>();
 
@@ -109,7 +109,7 @@ class Reader {
         return books;
     }
 
-    private static Book readBook(String firstLine, BufferedReader in) throws SerializerException, IOException {
+    private Book readBook(String firstLine, BufferedReader in) throws SerializerException, IOException {
         checkBoundary(firstLine, BOOK_START);
         Book book;
 
@@ -138,7 +138,7 @@ class Reader {
         return book;
     }
 
-    private static List<Publisher> readPublishers(BufferedReader in) throws SerializerException, IOException {
+    private List<Publisher> readPublishers(BufferedReader in) throws SerializerException, IOException {
         checkBoundary(in.readLine().trim(), PUBLISHERS_START);
         List<Publisher> publishers = new ArrayList<>();
 
@@ -150,7 +150,7 @@ class Reader {
         return publishers;
     }
 
-    private static Publisher readPublisher(String firstLine, BufferedReader in) throws SerializerException, IOException {
+    private Publisher readPublisher(String firstLine, BufferedReader in) throws SerializerException, IOException {
         checkBoundary(firstLine, PUBLISHER_START);
         Publisher publisher;
 
@@ -173,19 +173,19 @@ class Reader {
         return publisher;
     }
 
-    private static SerializerException corruptionException() {
+    private SerializerException corruptionException() {
         return new SerializerException(FILE_CORRUPTED);
     }
 
-    private static SerializerException corruptionException(Exception e) {
+    private SerializerException corruptionException(Exception e) {
         return new SerializerException(FILE_CORRUPTED, e);
     }
 
-    private static void checkBoundary(String line, String requiredBoundary) throws SerializerException {
+    private void checkBoundary(String line, String requiredBoundary) throws SerializerException {
         if (!line.equals(requiredBoundary)) throw corruptionException();
     }
 
-    private static String getField(BufferedReader in, String fieldName) throws SerializerException, IOException {
+    private String getField(BufferedReader in, String fieldName) throws SerializerException, IOException {
         String line = in.readLine().trim();
         if (!line.startsWith(fieldName)) throw corruptionException();
         return line.substring(fieldName.length());

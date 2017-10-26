@@ -13,7 +13,7 @@ public class CustomSerializer implements Serializer {
     @Override
     public void save(Dataset dataset, String filename) throws SerializerException {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(filename)))) {
-            Writer.write(dataset, out);
+            new Writer().write(dataset, out);
         } catch (IOException e) {
             throw new SerializerException("Could not save dataset", e);
         }
@@ -23,7 +23,7 @@ public class CustomSerializer implements Serializer {
     public Dataset load(String filename) throws SerializerException {
         Dataset loadedDataset;
         try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
-            loadedDataset = Reader.read(in);
+            loadedDataset = new Reader().read(in);
         } catch (IOException e) {
             throw new SerializerException("Could not load dataset", e);
         }
