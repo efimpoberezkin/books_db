@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 class DatasetTransformer {
 
-    static SerializableDataset transformIntoSerializable(Dataset dataset) {
+    SerializableDataset transformIntoSerializable(Dataset dataset) {
         List<Author> authors = dataset.getAuthors();
         List<Book> books = dataset.getBooks();
         List<Publisher> publishers = dataset.getPublishers();
@@ -82,7 +82,7 @@ class DatasetTransformer {
         );
     }
 
-    static Dataset transformIntoDomain(SerializableDataset serializableDataset) {
+    Dataset transformIntoDomain(SerializableDataset serializableDataset) {
         List<AuthorEntity> authorEntities = serializableDataset.getAuthors();
         List<BookEntity> bookEntities = serializableDataset.getBooks();
         List<PublisherEntity> publisherEntities = serializableDataset.getPublishers();

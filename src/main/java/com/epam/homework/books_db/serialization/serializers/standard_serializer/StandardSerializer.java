@@ -12,7 +12,7 @@ public class StandardSerializer implements Serializer {
 
     @Override
     public void save(Dataset dataset, String filename) throws SerializerException {
-        SerializableDataset serializableDataset = DatasetTransformer.transformIntoSerializable(dataset);
+        SerializableDataset serializableDataset = new DatasetTransformer().transformIntoSerializable(dataset);
         try {
             ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filename)));
             out.writeObject(serializableDataset);
@@ -33,7 +33,7 @@ public class StandardSerializer implements Serializer {
         } catch (IOException | ClassNotFoundException e) {
             throw new SerializerException("Could not load dataset", e);
         }
-        Dataset loadedDataset = DatasetTransformer.transformIntoDomain(serializableDataset);
+        Dataset loadedDataset = new DatasetTransformer().transformIntoDomain(serializableDataset);
         try {
             Validator.validateDataset(loadedDataset);
         } catch (ValidationException e) {
