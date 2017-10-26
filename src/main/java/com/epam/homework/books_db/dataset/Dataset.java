@@ -40,6 +40,13 @@ public class Dataset {
         if (!(authors.size() == dataset.authors.size() && authors.containsAll(dataset.authors))) return false;
         if (!(books.size() == dataset.books.size() && books.containsAll(dataset.books))) return false;
         return publishers.size() == dataset.publishers.size() && publishers.containsAll(dataset.publishers);
+    }
 
+    @Override
+    public int hashCode() {
+        int result = authors.hashCode();
+        result = 31 * result + books.hashCode();
+        result = 31 * result + publishers.hashCode();
+        return result;
     }
 }

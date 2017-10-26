@@ -28,4 +28,24 @@ public class BookEntity implements Serializable {
     public List<AuthorEntity> getAuthors() {
         return authors;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BookEntity book = (BookEntity) o;
+
+        if (!name.equals(book.name)) return false;
+        if (!yearOfPublication.equals(book.yearOfPublication)) return false;
+        return authors.size() == book.authors.size() && authors.containsAll(book.authors);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + yearOfPublication.hashCode();
+        result = 31 * result + authors.hashCode();
+        return result;
+    }
 }

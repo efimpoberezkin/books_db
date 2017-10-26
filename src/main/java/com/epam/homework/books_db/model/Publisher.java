@@ -34,6 +34,13 @@ public class Publisher {
     }
 
     @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + books.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Publisher{" +
                 "name='" + name + '\'' +

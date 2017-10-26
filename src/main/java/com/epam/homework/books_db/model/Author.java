@@ -31,8 +31,7 @@ public class Author {
     }
 
     public Optional<LocalDate> getDateOfDeath() {
-        Optional<LocalDate> opt = Optional.ofNullable(dateOfDeath);
-        return opt;
+        return Optional.ofNullable(dateOfDeath);
     }
 
     public Gender getGender() {
@@ -50,6 +49,15 @@ public class Author {
         if (!dateOfBirth.equals(author.dateOfBirth)) return false;
         if (dateOfDeath != null ? !dateOfDeath.equals(author.dateOfDeath) : author.dateOfDeath != null) return false;
         return gender == author.gender;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + dateOfBirth.hashCode();
+        result = 31 * result + (dateOfDeath != null ? dateOfDeath.hashCode() : 0);
+        result = 31 * result + gender.hashCode();
+        return result;
     }
 
     @Override
