@@ -1,8 +1,13 @@
 package com.epam.homework.books_db;
 
+import com.epam.homework.books_db.dataset.Dataset;
+import com.epam.homework.books_db.dataset.DatasetInitializer;
+import com.epam.homework.books_db.dataset.DatasetPrinter;
+import com.epam.homework.books_db.serialization.serializers.xml.dom.DomParser;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
+import javax.xml.crypto.Data;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -19,6 +24,16 @@ public class XmlApp {
 
     public static void main(String[] args) {
         validateXml();
+
+        System.out.println("\n*** Dataset loaded by DOM Parser ***");
+        Dataset dataset = new DomParser().load(XML_PATH);
+        DatasetPrinter.print(dataset);
+
+        if (DatasetInitializer.getAnotherExampleDataset().equals(dataset)) {
+            System.out.println("\nDataset is correct");
+        } else {
+            System.out.println("\nDataset is not correct");
+        }
     }
 
     private static void validateXml() {
