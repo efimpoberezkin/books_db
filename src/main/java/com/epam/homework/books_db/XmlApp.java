@@ -4,6 +4,7 @@ import com.epam.homework.books_db.dataset.Dataset;
 import com.epam.homework.books_db.dataset.DatasetInitializer;
 import com.epam.homework.books_db.dataset.DatasetPrinter;
 import com.epam.homework.books_db.serialization.serializers.xml.dom.DomParser;
+import com.epam.homework.books_db.serialization.serializers.xml.sax.SaxParser;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
@@ -27,6 +28,16 @@ public class XmlApp {
 
         System.out.println("\n*** Dataset loaded by DOM Parser ***");
         Dataset dataset = new DomParser().load(XML_PATH);
+        DatasetPrinter.customPrint(dataset);
+
+        if (DatasetInitializer.getAnotherExampleDataset().equals(dataset)) {
+            System.out.println("\nDataset is correct");
+        } else {
+            System.out.println("\nDataset is not correct");
+        }
+
+        System.out.println("\n*** Dataset loaded by SAX Parser ***");
+        dataset = new SaxParser().load(XML_PATH);
         DatasetPrinter.customPrint(dataset);
 
         if (DatasetInitializer.getAnotherExampleDataset().equals(dataset)) {

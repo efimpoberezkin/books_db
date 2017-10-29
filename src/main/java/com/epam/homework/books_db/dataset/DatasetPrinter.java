@@ -32,13 +32,13 @@ public class DatasetPrinter {
         List<Book> books = dataset.getBooks();
         List<Publisher> publishers = dataset.getPublishers();
 
-        System.out.println("\n-- Authors --");
+        System.out.println("\n-- Authors --\n");
         authors.forEach(DatasetPrinter::printAuthor);
 
-        System.out.println("\n-- Books --");
+        System.out.println("\n-- Books --\n");
         books.forEach(DatasetPrinter::printBook);
 
-        System.out.println("\n-- Publishers --");
+        System.out.println("\n-- Publishers --\n");
         publishers.forEach(DatasetPrinter::printPublisher);
     }
 
