@@ -47,7 +47,7 @@ public class DatasetPrinter {
         indent += "  ";
         System.out.println(indent + "name: " + author.getName());
         System.out.println(indent + "date of birth: " + author.getDateOfBirth());
-        author.getDateOfDeath().ifPresent(date -> System.out.println(indent + "date of death:" + date));
+        author.getDateOfDeath().ifPresent(date -> System.out.println(indent + "date of death: " + date));
         System.out.println(indent + "gender: " + author.getGender());
         indent = indent.substring(2);
     }
