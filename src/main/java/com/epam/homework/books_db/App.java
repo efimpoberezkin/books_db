@@ -19,7 +19,7 @@ public class App {
     private static void performTests() {
         //Dataset exampleDataset = DatasetInitializer.getExampleDataset();
         Dataset exampleDataset = DatasetInitializer.getAnotherExampleDataset();
-        //DatasetPrinter.print(exampleDataset);
+        //DatasetPrinter.basicPrint(exampleDataset);
 
         System.out.println("\n*** Testing standard serializer ***");
         testSerializer(exampleDataset, new StandardSerializer(), STANDARD_SERIALIZER_FILENAME);
@@ -44,6 +44,6 @@ public class App {
             System.out.println("Deserialized dataset is not correct");
         }
         
-        //DatasetPrinter.print(loadedDataset);
+        //DatasetPrinter.basicPrint(loadedDataset);
     }
 }

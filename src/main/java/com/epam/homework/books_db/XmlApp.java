@@ -27,7 +27,7 @@ public class XmlApp {
 
         System.out.println("\n*** Dataset loaded by DOM Parser ***");
         Dataset dataset = new DomParser().load(XML_PATH);
-        DatasetPrinter.print(dataset);
+        DatasetPrinter.customPrint(dataset);
 
         if (DatasetInitializer.getAnotherExampleDataset().equals(dataset)) {
             System.out.println("\nDataset is correct");
