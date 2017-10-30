@@ -3,6 +3,7 @@ package com.epam.homework.books_db.dataset;
 import com.epam.homework.books_db.model.Author;
 import com.epam.homework.books_db.model.Book;
 import com.epam.homework.books_db.model.Publisher;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -10,7 +11,11 @@ public class DatasetPrinter {
 
     private static String indent;
 
+    private static Logger log = Logger.getRootLogger();
+
     public static void basicPrint(Dataset dataset) {
+        log.info("Printing dataset via basic print...");
+
         List<Author> authors = dataset.getAuthors();
         List<Book> books = dataset.getBooks();
         List<Publisher> publishers = dataset.getPublishers();
@@ -23,9 +28,15 @@ public class DatasetPrinter {
 
         System.out.println("\n-- Publishers --");
         publishers.forEach(System.out::println);
+
+        System.out.println();
+
+        log.info("Dataset printed");
     }
 
     public static void customPrint(Dataset dataset) {
+        log.info("Printing dataset via custom print...");
+
         indent = "";
 
         List<Author> authors = dataset.getAuthors();
@@ -40,6 +51,10 @@ public class DatasetPrinter {
 
         System.out.println("\n-- Publishers --\n");
         publishers.forEach(DatasetPrinter::printPublisher);
+
+        System.out.println();
+
+        log.info("Dataset printed");
     }
 
     private static void printAuthor(Author author) {

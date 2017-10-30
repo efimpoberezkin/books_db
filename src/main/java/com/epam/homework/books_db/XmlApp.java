@@ -2,8 +2,11 @@ package com.epam.homework.books_db;
 
 import com.epam.homework.books_db.dataset.Dataset;
 import com.epam.homework.books_db.dataset.DatasetPrinter;
+import com.epam.homework.books_db.serialization.serializers.Serializer;
+import com.epam.homework.books_db.serialization.serializers.SerializerException;
 import com.epam.homework.books_db.serialization.serializers.xml.dom.DomParser;
 import com.epam.homework.books_db.serialization.serializers.xml.sax.SaxParser;
+import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
@@ -21,23 +24,34 @@ public class XmlApp {
     private static final String XML_PATH = "src\\main\\resources\\xml\\example_dataset.xml";
     private static final String XSD_PATH = "src\\main\\resources\\xml\\dataset_schema.xsd";
 
+    private static Logger log = Logger.getRootLogger();
+
     public static void main(String[] args) {
         performTest();
     }
 
     private static void performTest() {
-        validateXml(XML_PATH, XSD_PATH);
+        if (validateXml(XML_PATH, XSD_PATH)) {
+            log.info("*** Loading dataset via DOM parser ***");
+            testParser(new DomParser(), XML_PATH);
 
-        System.out.println("\n*** Dataset loaded by DOM Parser ***");
-        Dataset dataset = new DomParser().load(XML_PATH);
-        DatasetPrinter.customPrint(dataset);
-
-        System.out.println("\n*** Dataset loaded by SAX Parser ***");
-        dataset = new SaxParser().load(XML_PATH);
-        DatasetPrinter.customPrint(dataset);
+            log.info("*** Loading dataset via SAX parser ***");
+            testParser(new SaxParser(), XML_PATH);
+        }
     }
 
-    private static void validateXml(String xml, String xsd) {
+    private static void testParser(Serializer parser, String filename) {
+        try {
+            Dataset dataset = parser.load(filename);
+            log.info("Dataset loaded");
+            DatasetPrinter.customPrint(dataset);
+        } catch (SerializerException e) {
+            log.error("Failed to load dataset", e);
+        }
+    }
+
+    private static boolean validateXml(String xml, String xsd) {
+        log.info("Validating XML...");
         try {
             File schemaFile = Paths.get(xsd).toFile();
             File dataFile = Paths.get(xml).toFile();
@@ -45,8 +59,11 @@ public class XmlApp {
             Schema schema = schemaFactory.newSchema(schemaFile);
             Validator validator = schema.newValidator();
             validator.validate(new StreamSource(new FileInputStream(dataFile)));
-        } catch(SAXException | IOException e) {
-            e.printStackTrace();
+            log.info("XML validated");
+            return true;
+        } catch (SAXException | IOException e) {
+            log.error("XML validation failed", e);
+            return false;
         }
     }
 }
