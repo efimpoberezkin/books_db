@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CustomSerializerTest {
 
-    private static final String PATH_TO_SAVE = "src\\test\\resources\\custom_serializer\\dataset.txt";
+    private static final String PATH_TO_SAVE = "dataset.txt";
     private static final String NORMAL_FILE = "src\\test\\resources\\custom_serializer\\dataset_normal.txt";
     private static final String CORRUPTED_FILE = "src\\test\\resources\\custom_serializer\\dataset_corrupted.txt";
     private static final String NON_VALID_FILE = "src\\test\\resources\\custom_serializer\\dataset_non_valid.txt";

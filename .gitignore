@@ -7,3 +7,6 @@ target/
 *.iml
 *.ipr
 *.iws
+
+dataset.ser
+dataset.txt

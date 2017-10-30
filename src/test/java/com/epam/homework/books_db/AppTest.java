@@ -11,8 +11,8 @@ import static org.junit.Assert.assertEquals;
 
 public class AppTest {
 
-    private static final String STANDARD_SERIALIZER_FILENAME = "src\\test\\resources\\standard_serializer\\dataset.ser";
-    private static final String CUSTOM_SERIALIZER_FILENAME = "src\\test\\resources\\custom_serializer\\dataset.txt";
+    private static final String STANDARD_SERIALIZER_FILENAME = "dataset.ser";
+    private static final String CUSTOM_SERIALIZER_FILENAME = "dataset.txt";
 
     @Test
     public void testStandardSerializer() {
