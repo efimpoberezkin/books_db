@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<dataset>
+    <authors>
+        <author id="0">
+            <author_data>
+                <name>Cervantes</name>
+                <birth>1980-01-13</birth>
+                <gender>MALE</gender>
+            </author_data>
+        </author>
+        <author id="1">
+            <author_data>
+                <name>Christie</name>
+                <birth>1942-05-24</birth>
+                <gender>FEMALE</gender>
+            </author_data>
+        </author>
+        <author id="2">
+            <author_data>
+                <name>Shakespeare</name>
+                <birth>1958-08-15</birth>
+                <death>2012-03-15</death>
+                <gender>MALE</gender>
+            </author_data>
+        </author>
+    </authors>
+    <books>
+        <book id="3">
+            <book_data>
+                <name>Don Quixote</name>
+                <year>2015</year>
+                <authors>
+                    <author id="0"/>
+                </authors>
+            </book_data>
+        </book>
+        <book id="4">
+            <book_data>
+                <name>The Adventures of Huckleberry Finn</name>
+                <year>2007</year>
+                <authors>
+                    <author id="5">
+                        <author_data>
+                            <name>Twain</name>
+                            <birth>1953-03-07</birth>
+                            <gender>MALE</gender>
+                        </author_data>
+                    </author>
+                </authors>
+            </book_data>
+        </book>
+        <book id="6">
+            <book_data>
+                <name>Macbeth</name>
+                <year>2012</year>
+                <authors>
+                    <author id="2"/>
+                </authors>
+            </book_data>
+        </book>
+        <book id="7">
+            <book_data>
+                <name>Ten Little Niggers</name>
+                <year>2009</year>
+                <authors>
+                    <author id="0"/>
+                    <author id="1"/>
+                </authors>
+            </book_data>
+        </book>
+    </books>
+    <publishers>
+        <publisher id="8">
+            <name>HarperCollins</name>
+            <books>
+                <book id="3"/>
+                <book id="9">
+                    <book_data>
+                        <name>Murder on the Orient Express</name>
+                        <year>2003</year>
+                        <authors>
+                            <author id="1"/>
+                            <author id="10">
+                                <author_data>
+                                    <name>Akhmatova</name>
+                                    <birth>1946-09-18</birth>
+                                    <death>2014-11-07</death>
+                                    <gender>FEMALE</gender>
+                                </author_data>
+                            </author>
+                        </authors>
+                    </book_data>
+                </book>
+                <book id="7"/>
+            </books>
+        </publisher>
+        <publisher id="11">
+            <name>Pearson Education</name>
+            <books>
+                <book id="6"/>
+                <book id="4"/>
+                <book id="9"/>
+            </books>
+        </publisher>
+    </publishers>
+</dataset>
