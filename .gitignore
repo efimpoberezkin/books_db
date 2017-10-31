@@ -8,5 +8,8 @@ target/
 *.ipr
 *.iws
 
+# Other
 dataset.ser
 dataset.txt
+console.log*
+errors.log
