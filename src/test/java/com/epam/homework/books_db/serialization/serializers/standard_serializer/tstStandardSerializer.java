@@ -19,7 +19,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class StandardSerializerTest {
+public class tstStandardSerializer {
 
     private static final String PATH_TO_SAVE = "dataset.ser";
     private static final String NORMAL_FILE = "src\\test\\resources\\standard_serializer\\dataset_normal.ser";
