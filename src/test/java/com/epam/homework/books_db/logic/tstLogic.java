@@ -47,8 +47,12 @@ public class tstLogic {
     @Test
     public void tstRetiredAuthors() {
         List<Author> expected = new ArrayList<>(Arrays.asList(authors.get(1), authors.get(7), authors.get(8)));
+        expected.sort(Comparator.comparing(Author::getName));
 
-        assertEquals(expected, Logic.getRetiredAuthors(authors));
+        List<Author> actual = Logic.getRetiredAuthors(authors);
+        actual.sort(Comparator.comparing(Author::getName));
+
+        assertEquals(expected, actual);
     }
 
     @Test
