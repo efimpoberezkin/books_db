@@ -11,5 +11,3 @@ target/
 # Other
 dataset.ser
 dataset.txt
-console.log*
-errors.log

@@ -11,7 +11,7 @@
     </appender>
 
     <appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="file" value="console.log"/>
+        <param name="file" value="log/console.log"/>
         <param name="datePattern" value="'.'yyyy-MM-dd"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ISO8601} %5p %m at %l%n"/>
@@ -22,7 +22,7 @@
     </appender>
 
     <appender name="ERR" class="org.apache.log4j.FileAppender">
-        <param name="file" value="errors.log"/>
+        <param name="file" value="log/errors.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ISO8601} %5p %m at %l%n"/>
         </layout>
