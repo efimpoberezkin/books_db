@@ -34,7 +34,7 @@ public class tstDomParser {
     }
 
     @Test
-    public void tstLoadNormal() {
+    public void tstLoad() {
         Dataset loadedDataset = new DomParser().load(XML);
         assertEquals(exampleDataset, loadedDataset);
     }

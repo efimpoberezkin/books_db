@@ -34,7 +34,7 @@ public class tstSaxParser {
     }
 
     @Test
-    public void tstLoadNormal() {
+    public void tstLoad() {
         Dataset loadedDataset = new SaxParser().load(XML);
         assertEquals(exampleDataset, loadedDataset);
     }
