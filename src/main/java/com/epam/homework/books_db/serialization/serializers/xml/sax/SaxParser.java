@@ -30,11 +30,9 @@ public class SaxParser implements Serializer {
             reader.parse(new InputSource(new FileInputStream(xml)));
 
             loadedDataset = saxHandler.getDataset();
+            new Validator().validateDataset(loadedDataset);
         } catch (SAXException | IOException e) {
             throw new SerializerException("Could not load dataset", e);
-        }
-        try {
-            new Validator().validateDataset(loadedDataset);
         } catch (ValidationException e) {
             throw new SerializerException("Could not validate loaded dataset, reason: " + e.getMessage(), e);
         }

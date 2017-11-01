@@ -24,11 +24,9 @@ public class CustomSerializer implements Serializer {
         Dataset loadedDataset;
         try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
             loadedDataset = new Reader().read(in);
+            new Validator().validateDataset(loadedDataset);
         } catch (IOException e) {
             throw new SerializerException("Could not load dataset", e);
-        }
-        try {
-            new Validator().validateDataset(loadedDataset);
         } catch (ValidationException e) {
             throw new SerializerException("Could not validate loaded dataset, reason: " + e.getMessage(), e);
         }

@@ -32,11 +32,9 @@ public class DomParser implements Serializer {
             Element root = document.getDocumentElement();
 
             loadedDataset = new Analyzer().buildDataset(root);
+            new Validator().validateDataset(loadedDataset);
         } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new SerializerException("Could not load dataset", e);
-        }
-        try {
-            new Validator().validateDataset(loadedDataset);
         } catch (ValidationException e) {
             throw new SerializerException("Could not validate loaded dataset, reason: " + e.getMessage(), e);
         }

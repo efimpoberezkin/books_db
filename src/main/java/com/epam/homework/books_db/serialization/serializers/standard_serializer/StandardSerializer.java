@@ -25,17 +25,16 @@ public class StandardSerializer implements Serializer {
 
     @Override
     public Dataset load(String filename) throws SerializerException {
-        SerializableDataset serializableDataset;
+        Dataset loadedDataset;
         try {
             ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(filename)));
-            serializableDataset = (SerializableDataset) in.readObject();
+            SerializableDataset serializableDataset = (SerializableDataset) in.readObject();
             in.close();
+
+            loadedDataset = new DatasetTransformer().transformIntoDomain(serializableDataset);
+            new Validator().validateDataset(loadedDataset);
         } catch (IOException | ClassNotFoundException e) {
             throw new SerializerException("Could not load dataset", e);
-        }
-        Dataset loadedDataset = new DatasetTransformer().transformIntoDomain(serializableDataset);
-        try {
-            new Validator().validateDataset(loadedDataset);
         } catch (ValidationException e) {
             throw new SerializerException("Could not validate loaded dataset, reason: " + e.getMessage(), e);
         }
