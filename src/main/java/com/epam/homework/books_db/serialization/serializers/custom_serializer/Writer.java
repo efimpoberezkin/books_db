@@ -51,17 +51,17 @@ class Writer {
 
     private void printAuthors(List<Author> authors, PrintWriter out) {
         out.println(indent + AUTHORS_START);
-        indent += "  ";
+        increaseIndent();
         for (Author author : authors) {
             printAuthor(author, out);
         }
-        indent = indent.substring(2);
+        decreaseIndent();
         out.println(indent + AUTHORS_END);
     }
 
     private void printAuthor(Author author, PrintWriter out) {
         out.println(indent + AUTHOR_START);
-        indent += "  ";
+        increaseIndent();
         if (serializationMap.containsKey(author)) {
             out.println(indent + CODE + serializationMap.get(author));
         } else {
@@ -73,23 +73,23 @@ class Writer {
             serializationMap.put(author, objectCounter);
             objectCounter++;
         }
-        indent = indent.substring(2);
+        decreaseIndent();
         out.println(indent + AUTHOR_END);
     }
 
     private void printBooks(List<Book> books, PrintWriter out) {
         out.println(indent + BOOKS_START);
-        indent += "  ";
+        increaseIndent();
         for (Book book : books) {
             printBook(book, out);
         }
-        indent = indent.substring(2);
+        decreaseIndent();
         out.println(indent + BOOKS_END);
     }
 
     private void printBook(Book book, PrintWriter out) {
         out.println(indent + BOOK_START);
-        indent += "  ";
+        increaseIndent();
         if (serializationMap.containsKey(book)) {
             out.println(indent + CODE + serializationMap.get(book));
         } else {
@@ -101,23 +101,23 @@ class Writer {
             printAuthors(book.getAuthors(), out);
             serializationMap.put(book, bucket);
         }
-        indent = indent.substring(2);
+        decreaseIndent();
         out.println(indent + BOOK_END);
     }
 
     private void printPublishers(List<Publisher> publishers, PrintWriter out) {
         out.println(indent + PUBLISHERS_START);
-        indent += "  ";
+        increaseIndent();
         for (Publisher publisher : publishers) {
             printPublisher(publisher, out);
         }
-        indent = indent.substring(2);
+        decreaseIndent();
         out.println(indent + PUBLISHERS_END);
     }
 
     private void printPublisher(Publisher publisher, PrintWriter out) {
         out.println(indent + PUBLISHER_START);
-        indent += "  ";
+        increaseIndent();
         if (serializationMap.containsKey(publisher)) {
             out.println(indent + CODE + serializationMap.get(publisher));
         } else {
@@ -128,7 +128,15 @@ class Writer {
             printBooks(publisher.getPublishedBooks(), out);
             serializationMap.put(publisher, bucket);
         }
-        indent = indent.substring(2);
+        decreaseIndent();
         out.println(indent + PUBLISHER_END);
+    }
+
+    private void increaseIndent() {
+        indent += "  ";
+    }
+
+    private void decreaseIndent() {
+        indent = indent.substring(2);
     }
 }
