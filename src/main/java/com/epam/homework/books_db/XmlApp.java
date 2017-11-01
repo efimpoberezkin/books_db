@@ -44,7 +44,7 @@ public class XmlApp {
         try {
             Dataset dataset = parser.load(filename);
             log.info("Dataset loaded");
-            DatasetPrinter.customPrint(dataset);
+            new DatasetPrinter().customPrint(dataset);
         } catch (SerializerException e) {
             log.error("Failed to load dataset", e);
         }

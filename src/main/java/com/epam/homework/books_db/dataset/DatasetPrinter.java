@@ -9,11 +9,9 @@ import java.util.List;
 
 public class DatasetPrinter {
 
-    private static String indent;
-
     private static Logger log = Logger.getRootLogger();
 
-    public static void basicPrint(Dataset dataset) {
+    public void basicPrint(Dataset dataset) {
         log.info("Printing dataset via basic print...");
 
         List<Author> authors = dataset.getAuthors();
@@ -34,53 +32,67 @@ public class DatasetPrinter {
         log.info("Dataset printed");
     }
 
-    public static void customPrint(Dataset dataset) {
+    public void customPrint(Dataset dataset) {
         log.info("Printing dataset via custom print...");
 
-        indent = "";
+        String indent = "";
 
         List<Author> authors = dataset.getAuthors();
         List<Book> books = dataset.getBooks();
         List<Publisher> publishers = dataset.getPublishers();
 
         System.out.println("\n-- Authors --\n");
-        authors.forEach(DatasetPrinter::printAuthor);
+        authors.forEach(author -> printAuthor(author, indent));
 
         System.out.println("\n-- Books --\n");
-        books.forEach(DatasetPrinter::printBook);
+        books.forEach(book -> printBook(book, indent));
 
         System.out.println("\n-- Publishers --\n");
-        publishers.forEach(DatasetPrinter::printPublisher);
+        publishers.forEach(publisher -> printPublisher(publisher, indent));
 
         System.out.println();
 
         log.info("Dataset printed");
     }
 
-    private static void printAuthor(Author author) {
+    private void printAuthor(Author author, String indent) {
         System.out.println(indent + "author");
-        indent += "  ";
+        indent = increaseIndent(indent);
         System.out.println(indent + "name: " + author.getName());
         System.out.println(indent + "date of birth: " + author.getDateOfBirth());
-        author.getDateOfDeath().ifPresent(date -> System.out.println(indent + "date of death: " + date));
+        if (author.getDateOfDeath().isPresent()) {
+            System.out.println(indent + "date of death: " + author.getDateOfDeath());
+        }
         System.out.println(indent + "gender: " + author.getGender());
-        indent = indent.substring(2);
+        indent = decreaseIndent(indent);
     }
 
-    private static void printBook(Book book) {
+    private void printBook(Book book, String indent) {
         System.out.println(indent + "book");
-        indent += "  ";
+        indent = increaseIndent(indent);
         System.out.println(indent + "name: " + book.getName());
         System.out.println(indent + "year of publication: " + book.getYearOfPublication());
-        book.getAuthors().forEach(DatasetPrinter::printAuthor);
-        indent = indent.substring(2);
+        for (Author author : book.getAuthors()) {
+            printAuthor(author, indent);
+        }
+        indent = decreaseIndent(indent);
     }
 
-    private static void printPublisher(Publisher publisher) {
+    private void printPublisher(Publisher publisher, String indent) {
         System.out.println(indent + "publisher");
-        indent += "  ";
+        indent = increaseIndent(indent);
         System.out.println(indent + "name: " + publisher.getName());
-        publisher.getPublishedBooks().forEach(DatasetPrinter::printBook);
-        indent = indent.substring(2);
+        for (Book book : publisher.getPublishedBooks()) {
+            printBook(book, indent);
+        }
+        indent = decreaseIndent(indent);
+    }
+
+    private String increaseIndent(String indent) {
+        return indent + "  ";
+    }
+
+    private String decreaseIndent(String indent) {
+        return indent.substring(2);
     }
 }

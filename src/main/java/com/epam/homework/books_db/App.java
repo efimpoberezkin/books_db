@@ -21,9 +21,8 @@ public class App {
     }
 
     private static void performTests() {
-        //Dataset exampleDataset = DatasetInitializer.getExampleDataset();
         Dataset exampleDataset = DatasetInitializer.getAnotherExampleDataset();
-        //DatasetPrinter.basicPrint(exampleDataset);
+        new DatasetPrinter().basicPrint(exampleDataset);
 
         log.info("*** Testing standard serializer ***");
         testSerializer(exampleDataset, new StandardSerializer(), STANDARD_SERIALIZER_FILENAME);
@@ -32,7 +31,7 @@ public class App {
         testSerializer(exampleDataset, new CustomSerializer(), CUSTOM_SERIALIZER_FILENAME);
     }
 
-    private static void testSerializer (Dataset dataset, Serializer serializer, String filename) {
+    private static void testSerializer(Dataset dataset, Serializer serializer, String filename) {
         log.info("Serializing dataset...");
         try {
             serializer.save(dataset, filename);
@@ -53,7 +52,7 @@ public class App {
                 log.info("Deserialized dataset is not correct");
             }
 
-            //DatasetPrinter.basicPrint(loadedDataset);
+            new DatasetPrinter().basicPrint(loadedDataset);
         } catch (SerializerException e) {
             log.error("Dataset deserialization failed", e);
         }
