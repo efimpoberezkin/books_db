@@ -1,4 +1,4 @@
-package com.epam.homework.books_db.serialization.serializers.xml.sax;
+package com.epam.homework.books_db.serialization.serializers.xml.dom;
 
 import com.epam.homework.books_db.dataset.Dataset;
 import com.epam.homework.books_db.model.Author;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class tstSaxParser {
+public class DomParserTest {
 
     private static final String XML = "src\\test\\resources\\xml\\example_dataset.xml";
 
@@ -35,7 +35,7 @@ public class tstSaxParser {
 
     @Test
     public void tstLoad() {
-        Dataset loadedDataset = new SaxParser().load(XML);
+        Dataset loadedDataset = new DomParser().load(XML);
         assertEquals(exampleDataset, loadedDataset);
     }
 

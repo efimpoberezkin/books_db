@@ -1,12 +1,10 @@
-package com.epam.homework.books_db.serialization.serializers.standard_serializer;
+package com.epam.homework.books_db.serialization.serializers.xml.sax;
 
 import com.epam.homework.books_db.dataset.Dataset;
 import com.epam.homework.books_db.model.Author;
 import com.epam.homework.books_db.model.Book;
 import com.epam.homework.books_db.model.Gender;
 import com.epam.homework.books_db.model.Publisher;
-import com.epam.homework.books_db.serialization.serializers.Serializer;
-import com.epam.homework.books_db.serialization.serializers.SerializerException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,11 +17,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class tstStandardSerializer {
+public class SaxParserTest {
 
-    private static final String PATH_TO_SAVE = "dataset.ser";
-    private static final String NORMAL_FILE = "src\\test\\resources\\standard_serializer\\dataset_normal.ser";
-    private static final String CORRUPTED_FILE = "src\\test\\resources\\standard_serializer\\dataset_corrupted.ser";
+    private static final String XML = "src\\test\\resources\\xml\\example_dataset.xml";
 
     private static Dataset exampleDataset;
 
@@ -38,24 +34,9 @@ public class tstStandardSerializer {
     }
 
     @Test
-    public void tstLoadNormal() {
-        Dataset loadedDataset = new StandardSerializer().load(NORMAL_FILE);
+    public void tstLoad() {
+        Dataset loadedDataset = new SaxParser().load(XML);
         assertEquals(exampleDataset, loadedDataset);
-    }
-
-    @Test(expected = SerializerException.class)
-    public void tstLoadCorrupted() {
-        new StandardSerializer().load(CORRUPTED_FILE);
-    }
-
-    @Test
-    public void tstSave() {
-        Serializer standardSerializer = new StandardSerializer();
-        standardSerializer.save(exampleDataset, PATH_TO_SAVE);
-        Dataset savedDataset = standardSerializer.load(PATH_TO_SAVE);
-        Dataset expectedDataset = standardSerializer.load(NORMAL_FILE);
-
-        assertEquals(expectedDataset, savedDataset);
     }
 
     @AfterClass

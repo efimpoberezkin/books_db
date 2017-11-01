@@ -15,7 +15,7 @@ import java.util.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
-public class tstLogic {
+public class LogicTest {
 
     private static List<Author> authors;
     private static List<Book> books;
