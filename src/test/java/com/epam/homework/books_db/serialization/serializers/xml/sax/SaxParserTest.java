@@ -39,11 +39,6 @@ public class SaxParserTest {
         assertEquals(exampleDataset, loadedDataset);
     }
 
-    @AfterClass
-    public static void destroyExampleDataset() {
-        exampleDataset = null;
-    }
-
     private static void formDataForExampleDataset(List<Author> authors, List<Book> books, List<Publisher> publishers) {
         Author authorCervantes
                 = new Author("Cervantes", LocalDate.parse("1980-01-13"), Gender.MALE);

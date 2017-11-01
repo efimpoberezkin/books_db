@@ -96,12 +96,6 @@ public class LogicTest {
         assertEquals(expected, Logic.getBooksByAuthors(books));
     }
 
-    @AfterClass
-    public static void destroyExampleDataset() {
-        authors = null;
-        books = null;
-    }
-
     private static void formData(List<Author> authors, List<Book> books) {
         Author authorCervantes
                 = new Author("Cervantes", LocalDate.parse("1980-01-13"), Gender.MALE);
