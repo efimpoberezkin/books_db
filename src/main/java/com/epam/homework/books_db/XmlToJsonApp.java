@@ -12,7 +12,7 @@ import java.io.IOException;
 public class XmlToJsonApp {
 
     private static final String JSON_PATH = "dataset.json";
-    private static final String XML_PATH = "src\\main\\resources\\xml\\example_dataset.xml";
+    private static final String XML_PATH = "src\\main\\resources\\xml\\small_dataset.xml";
 
     private static Logger log = Logger.getRootLogger();
 
