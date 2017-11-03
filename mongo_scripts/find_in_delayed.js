@@ -1,0 +1,1 @@
+﻿rs.slaveOk(); printjson(db.datasets.findOne())
