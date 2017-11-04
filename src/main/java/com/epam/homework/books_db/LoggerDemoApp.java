@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 public class LoggerDemoApp {
 
-    private static Logger log = Logger.getRootLogger();
+    private static final Logger log = Logger.getRootLogger();
 
     public static void main(String[] args) {
         testLogger();

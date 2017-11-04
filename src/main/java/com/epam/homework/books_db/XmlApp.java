@@ -24,7 +24,7 @@ public class XmlApp {
     private static final String XML_PATH = "src\\main\\resources\\xml\\example_dataset.xml";
     private static final String XSD_PATH = "src\\main\\resources\\xml\\dataset_schema.xsd";
 
-    private static Logger log = Logger.getRootLogger();
+    private static final Logger log = Logger.getRootLogger();
 
     public static void main(String[] args) {
         performTest();

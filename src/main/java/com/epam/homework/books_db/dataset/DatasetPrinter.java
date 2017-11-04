@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DatasetPrinter {
 
-    private static Logger log = Logger.getRootLogger();
+    private static final Logger log = Logger.getRootLogger();
 
     public void basicPrint(Dataset dataset) {
         log.info("Printing dataset via basic print...");

@@ -14,7 +14,7 @@ public class App {
     private static final String STANDARD_SERIALIZER_FILENAME = "dataset.ser";
     private static final String CUSTOM_SERIALIZER_FILENAME = "dataset.txt";
 
-    private static Logger log = Logger.getRootLogger();
+    private static final Logger log = Logger.getRootLogger();
 
     public static void main(String[] args) {
         performTests();

@@ -14,7 +14,7 @@ public class XmlToJsonApp {
     private static final String JSON_PATH = "dataset.json";
     private static final String XML_PATH = "src\\main\\resources\\xml\\small_dataset.xml";
 
-    private static Logger log = Logger.getRootLogger();
+    private static final Logger log = Logger.getRootLogger();
 
     public static void main(String[] args) {
         transformXmlIntoJson();
