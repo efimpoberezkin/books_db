@@ -5,7 +5,6 @@ import com.epam.homework.books_db.model.Author;
 import com.epam.homework.books_db.model.Book;
 import com.epam.homework.books_db.model.Gender;
 import com.epam.homework.books_db.model.Publisher;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
