@@ -19,7 +19,7 @@ public class DatabaseDao {
     private static final String USER = "postgres";
     private static final String PASSWORD = "123";
 
-    public void save(Dataset dataset) {
+    public void save(Dataset dataset) throws DaoException {
         Connection conn = null;
         try {
             Class.forName(JDBC_DRIVER);
@@ -32,7 +32,7 @@ public class DatabaseDao {
 
             log.debug("Dataset saved");
         } catch (SQLException | ClassNotFoundException e) {
-            log.error("Failed to save dataset to database", e);
+            throw new DaoException("Database DAO failed to save dataset", e);
         } finally {
             try {
                 if (conn != null) {
@@ -45,9 +45,9 @@ public class DatabaseDao {
         }
     }
 
-    public Dataset load(int id) {
+    public Dataset load(int id) throws DaoException {
         Connection conn = null;
-        Dataset loadedDataset = null;
+        Dataset loadedDataset;
         try {
             Class.forName(JDBC_DRIVER);
 
@@ -61,10 +61,12 @@ public class DatabaseDao {
 
             new Validator().validateDataset(loadedDataset);
             log.debug("Dataset validated");
+
+            return loadedDataset;
         } catch (SQLException | ClassNotFoundException e) {
-            log.error("Failed to save dataset to database", e);
+            throw new DaoException("Database DAO failed to load dataset", e);
         } catch (ValidationException e) {
-            log.error("Could not validate loaded dataset, reason: " + e.getMessage(), e);
+            throw new DaoException("Could not validate loaded dataset, reason: " + e.getMessage(), e);
         } finally {
             try {
                 if (conn != null) {
@@ -75,6 +77,5 @@ public class DatabaseDao {
                 log.error("Failed to close connection", e);
             }
         }
-        return loadedDataset;
     }
 }

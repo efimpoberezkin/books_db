@@ -17,8 +17,6 @@ import static com.epam.homework.books_db.postgresql.ConstantsContainer.*;
 
 class DatabaseWriter {
 
-    private static final Logger log = Logger.getRootLogger();
-
     private final Connection conn;
 
     private Map<Author, Integer> authorsMap;
@@ -29,13 +27,12 @@ class DatabaseWriter {
         this.conn = conn;
     }
 
-    void write(Dataset dataset) {
+    void write(Dataset dataset) throws SQLException {
         authorsMap = new HashMap<>();
         booksMap = new HashMap<>();
         publishersMap = new HashMap<>();
 
         PreparedStatement stmt = null;
-
         try {
             String insertDatasetSql = "INSERT INTO " + DATASET + "(" + ID + ") VALUES(DEFAULT)";
             stmt = conn.prepareStatement(insertDatasetSql, Statement.RETURN_GENERATED_KEYS);
@@ -47,7 +44,7 @@ class DatabaseWriter {
                 datasetKey = rs.getInt(1);
             }
 
-            writeAuthors(dataset.getAuthors(), stmt);
+            writeAuthors(dataset.getAuthors());
 
             String insertDatasetsAuthorsSql = "INSERT INTO " + DATASETS_AUTHORS
                     + "(" + DATASET_ID + ", " + AUTHOR_ID + ") VALUES"
@@ -59,7 +56,7 @@ class DatabaseWriter {
                 stmt.executeUpdate();
             }
 
-            writeBooks(dataset.getBooks(), stmt);
+            writeBooks(dataset.getBooks());
 
             String insertDatasetsBooksSql = "INSERT INTO " + DATASETS_BOOKS
                     + "(" + DATASET_ID + ", " + BOOK_ID + ") VALUES"
@@ -71,7 +68,7 @@ class DatabaseWriter {
                 stmt.executeUpdate();
             }
 
-            writePublishers(dataset.getPublishers(), stmt);
+            writePublishers(dataset.getPublishers());
 
             String insertDatasetsPublishersSql = "INSERT INTO " + DATASETS_PUBLISHERS
                     + "(" + DATASET_ID + ", " + PUBLISHER_ID + ") VALUES"
@@ -82,20 +79,14 @@ class DatabaseWriter {
                 stmt.setInt(1, publishersMap.get(publisher));
                 stmt.executeUpdate();
             }
-        } catch (SQLException e) {
-            log.error("Failed to save dataset to database", e);
         } finally {
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException e) {
-                log.error("Failed to close statement", e);
+            if (stmt != null) {
+                stmt.close();
             }
         }
     }
 
-    private void writeAuthors(List<Author> authors, PreparedStatement stmt) throws SQLException {
+    private void writeAuthors(List<Author> authors) throws SQLException {
         for (Author author : authors) {
             if (!authorsMap.containsKey(author)) {
                 String name = "\'" + author.getName() + "\'";
@@ -107,26 +98,33 @@ class DatabaseWriter {
 
                 String insertAuthorSql = "INSERT INTO " + AUTHOR
                         + "(" + NAME + ", " + DATE_OF_BIRTH + ", " + DATE_OF_DEATH + ", " + GENDER_ID + ") VALUES"
-                        + "(" + name + "," + birth + "," + death + "," + gender + ") "
-                        + "ON CONFLICT ON CONSTRAINT author_uq "
-                        + "DO UPDATE SET " + NAME + "=" + name + " "
-                        + "RETURNING " + ID + ";--"; // adding ;-- so PreparedStatement doesn't break returning option
-                stmt = conn.prepareStatement(insertAuthorSql, Statement.RETURN_GENERATED_KEYS);
+                        + "(" + name + "," + birth + "," + death + "," + gender + ")"
+                        + " ON CONFLICT ON CONSTRAINT author_uq"
+                        + " DO UPDATE SET " + NAME + "=" + name // updating so that RETURNING works
+                        + " RETURNING " + ID + ";--"; // adding ;-- so that Statement doesn't break RETURNING option
 
-                stmt.executeUpdate();
+                Statement stmt = null;
+                try {
+                    stmt = conn.createStatement();
+                    stmt.executeUpdate(insertAuthorSql, Statement.RETURN_GENERATED_KEYS);
 
-                int key = -1;
-                ResultSet rs = stmt.getGeneratedKeys();
-                if (rs.next()) {
-                    key = rs.getInt(1);
+                    int key = -1;
+                    ResultSet rs = stmt.getGeneratedKeys();
+                    if (rs.next()) {
+                        key = rs.getInt(1);
+                    }
+
+                    authorsMap.put(author, key);
+                } finally {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
                 }
-
-                authorsMap.put(author, key);
             }
         }
     }
 
-    private void writeBooks(List<Book> books, PreparedStatement stmt) throws SQLException {
+    private void writeBooks(List<Book> books) throws SQLException {
         for (Book book : books) {
             if (!booksMap.containsKey(book)) {
                 String name = "\'" + book.getName() + "\'";
@@ -134,37 +132,53 @@ class DatabaseWriter {
 
                 String insertBookSql = "INSERT INTO " + BOOK
                         + "(" + NAME + ", " + YEAR_OF_PUBLICATION + ") VALUES"
-                        + "(" + name + "," + year + ") "
-                        + "ON CONFLICT ON CONSTRAINT book_uq "
-                        + "DO UPDATE SET " + NAME + "=" + name + " "
-                        + "RETURNING " + ID + ";--"; // adding ;-- so PreparedStatement doesn't break returning option
-                stmt = conn.prepareStatement(insertBookSql, Statement.RETURN_GENERATED_KEYS);
-                stmt.executeUpdate();
+                        + "(" + name + "," + year + ")"
+                        + " ON CONFLICT ON CONSTRAINT book_uq"
+                        + " DO UPDATE SET " + NAME + "=" + name // updating so that RETURNING works
+                        + " RETURNING " + ID + ";--"; // adding ;-- so that Statement doesn't break RETURNING option
 
-                int key = -1;
-                ResultSet rs = stmt.getGeneratedKeys();
-                if (rs.next()) {
-                    key = rs.getInt(1);
+                Statement stmt = null;
+                try {
+                    stmt = conn.createStatement();
+                    stmt.executeUpdate(insertBookSql, Statement.RETURN_GENERATED_KEYS);
+
+                    int key = -1;
+                    ResultSet rs = stmt.getGeneratedKeys();
+                    if (rs.next()) {
+                        key = rs.getInt(1);
+                    }
+
+                    writeAuthors(book.getAuthors());
+
+                    String insertBooksAuthorsSql = "INSERT INTO " + BOOKS_AUTHORS
+                            + "(" + BOOK_ID + ", " + AUTHOR_ID + ") VALUES"
+                            + "(" + key + ",?)";
+
+                    PreparedStatement prepStmt = null;
+                    try {
+                        prepStmt = conn.prepareStatement(insertBooksAuthorsSql, Statement.RETURN_GENERATED_KEYS);
+
+                        for (Author author : book.getAuthors()) {
+                            prepStmt.setInt(1, authorsMap.get(author));
+                            prepStmt.executeUpdate();
+                        }
+                    } finally {
+                        if (prepStmt != null) {
+                            prepStmt.close();
+                        }
+                    }
+
+                    booksMap.put(book, key);
+                } finally {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
                 }
-
-                writeAuthors(book.getAuthors(), stmt);
-
-                String insertBooksAuthorsSql = "INSERT INTO " + BOOKS_AUTHORS
-                        + "(" + BOOK_ID + ", " + AUTHOR_ID + ") VALUES"
-                        + "(" + key + ",?)";
-                stmt = conn.prepareStatement(insertBooksAuthorsSql, Statement.RETURN_GENERATED_KEYS);
-
-                for (Author author : book.getAuthors()) {
-                    stmt.setInt(1, authorsMap.get(author));
-                    stmt.executeUpdate();
-                }
-
-                booksMap.put(book, key);
             }
         }
     }
 
-    private void writePublishers(List<Publisher> publishers, PreparedStatement stmt) throws SQLException {
+    private void writePublishers(List<Publisher> publishers) throws SQLException {
         for (Publisher publisher : publishers) {
             if (!publishersMap.containsKey(publisher)) {
                 String name = "\'" + publisher.getName() + "\'";
@@ -172,31 +186,47 @@ class DatabaseWriter {
                 String insertPublisherSql = "INSERT INTO " + PUBLISHER
                         + "(" + NAME + ") VALUES"
                         + "(" + name + ")"
-                        + "ON CONFLICT ON CONSTRAINT publisher_uq "
-                        + "DO UPDATE SET " + NAME + "=" + name + " "
-                        + "RETURNING " + ID + ";--"; // adding ;-- so PreparedStatement doesn't break returning option
-                stmt = conn.prepareStatement(insertPublisherSql, Statement.RETURN_GENERATED_KEYS);
-                stmt.executeUpdate();
+                        + " ON CONFLICT ON CONSTRAINT publisher_uq"
+                        + " DO UPDATE SET " + NAME + "=" + name // updating so that RETURNING works
+                        + " RETURNING " + ID + ";--"; // adding ;-- so that Statement doesn't break RETURNING option
 
-                int key = -1;
-                ResultSet rs = stmt.getGeneratedKeys();
-                if (rs.next()) {
-                    key = rs.getInt(1);
+                Statement stmt = null;
+                try {
+                    stmt = conn.createStatement();
+                    stmt.executeUpdate(insertPublisherSql, Statement.RETURN_GENERATED_KEYS);
+
+                    int key = -1;
+                    ResultSet rs = stmt.getGeneratedKeys();
+                    if (rs.next()) {
+                        key = rs.getInt(1);
+                    }
+
+                    writeBooks(publisher.getPublishedBooks());
+
+                    String insertPublishersBooksSql = "INSERT INTO " + PUBLISHERS_BOOKS
+                            + "(" + PUBLISHER_ID + ", " + BOOK_ID + ") VALUES"
+                            + "(" + key + ",?)";
+
+                    PreparedStatement prepStmt = null;
+                    try {
+                        prepStmt = conn.prepareStatement(insertPublishersBooksSql, Statement.RETURN_GENERATED_KEYS);
+
+                        for (Book book : publisher.getPublishedBooks()) {
+                            prepStmt.setInt(1, booksMap.get(book));
+                            prepStmt.executeUpdate();
+                        }
+                    } finally {
+                        if (prepStmt != null) {
+                            prepStmt.close();
+                        }
+                    }
+
+                    publishersMap.put(publisher, key);
+                } finally {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
                 }
-
-                writeBooks(publisher.getPublishedBooks(), stmt);
-
-                String insertPublishersBooksSql = "INSERT INTO " + PUBLISHERS_BOOKS
-                        + "(" + PUBLISHER_ID + ", " + BOOK_ID + ") VALUES"
-                        + "(" + key + ",?)";
-                stmt = conn.prepareStatement(insertPublishersBooksSql, Statement.RETURN_GENERATED_KEYS);
-
-                for (Book book : publisher.getPublishedBooks()) {
-                    stmt.setInt(1, booksMap.get(book));
-                    stmt.executeUpdate();
-                }
-
-                publishersMap.put(publisher, key);
             }
         }
     }
