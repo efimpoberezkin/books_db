@@ -25,7 +25,7 @@ public class DatabaseApp {
 
     private static void testDatabase() {
         log.info("*** Reading dataset from xml and writing it to database ***");
-        Dataset exampleDataset= null;
+        Dataset exampleDataset = null;
         try {
             log.debug("Loading dataset from xml...");
             exampleDataset = new DomParser().load(XML_PATH);
