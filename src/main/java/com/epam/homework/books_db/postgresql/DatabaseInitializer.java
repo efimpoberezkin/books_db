@@ -73,6 +73,7 @@ public class DatabaseInitializer {
             sr.setLogWriter(null);
             Reader reader = new BufferedReader(new FileReader(INITIALIZATION_SCRIPT));
             sr.runScript(reader);
+            reader.close();
 
             log.debug("Tables created");
         } catch (IOException | SQLException e) {
