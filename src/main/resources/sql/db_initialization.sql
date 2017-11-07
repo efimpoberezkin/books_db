@@ -74,6 +74,14 @@ ALTER TABLE publisher
     ADD CONSTRAINT publisher_uq
     UNIQUE (name);
 
+ALTER TABLE booksAuthors
+    ADD CONSTRAINT booksAuthors_uq
+    UNIQUE (bookId, authorId);
+
+ALTER TABLE publishersBooks
+    ADD CONSTRAINT publishersBooks_uq
+    UNIQUE (publisherId, bookId);
+
 ALTER TABLE author ADD CONSTRAINT Ref_Author_to_Gender FOREIGN KEY (genderId)
 	REFERENCES gender(id)
 	MATCH SIMPLE

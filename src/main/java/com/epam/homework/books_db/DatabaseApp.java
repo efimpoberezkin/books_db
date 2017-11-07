@@ -25,7 +25,7 @@ public class DatabaseApp {
 
     private static void testDatabase() {
         log.info("*** Reading dataset from xml and writing it to database ***");
-        Dataset exampleDataset;
+        Dataset exampleDataset= null;
         try {
             log.debug("Loading dataset from xml...");
             exampleDataset = new DomParser().load(XML_PATH);
@@ -47,5 +47,11 @@ public class DatabaseApp {
         }
 
         new DatasetPrinter().customPrint(loadedDataset);
+
+        if (loadedDataset.equals(exampleDataset)) {
+            System.out.println("\nLoaded dataset is correct");
+        } else {
+            System.out.println("\nLoaded dataset is not correct");
+        }
     }
 }
