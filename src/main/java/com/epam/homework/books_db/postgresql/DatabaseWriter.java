@@ -186,7 +186,7 @@ class DatabaseWriter {
 
                 writeBooks(publisher.getPublishedBooks(), stmt);
 
-                String insertPublishersBooksSql = "INSERT INTO " + PUBLISHER_BOOKS
+                String insertPublishersBooksSql = "INSERT INTO " + PUBLISHERS_BOOKS
                         + "(" + PUBLISHER_ID + ", " + BOOK_ID + ") VALUES"
                         + "(" + key + ",?)";
                 stmt = conn.prepareStatement(insertPublishersBooksSql, Statement.RETURN_GENERATED_KEYS);

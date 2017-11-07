@@ -1,7 +1,7 @@
 package com.epam.homework.books_db;
 
 import com.epam.homework.books_db.dataset.Dataset;
-import com.epam.homework.books_db.dataset.DatasetInitializer;
+import com.epam.homework.books_db.dataset.DatasetPrinter;
 import com.epam.homework.books_db.postgresql.DatabaseDao;
 import com.epam.homework.books_db.postgresql.DatabaseInitializer;
 import com.epam.homework.books_db.serialization.serializers.SerializerException;
@@ -34,5 +34,10 @@ public class DatabaseApp {
             log.error("Failed to load dataset from xml", e);
         }
         new DatabaseDao().save(exampleDataset);
+
+        log.info("*** Reading dataset from database ***");
+        Dataset loadedDataset = new DatabaseDao().load(1);
+
+        new DatasetPrinter().customPrint(loadedDataset);
     }
 }
