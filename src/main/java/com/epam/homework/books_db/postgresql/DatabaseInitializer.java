@@ -1,4 +1,4 @@
-package com.epam.homework.books_db.serialization.serializers.postgresql;
+package com.epam.homework.books_db.postgresql;
 
 import org.apache.log4j.Logger;
 
@@ -30,13 +30,14 @@ public class DatabaseInitializer {
             log.debug("Creating database...");
             stmt = conn.createStatement();
 
+            //drops database to perform a clean test
             stmt.executeUpdate("DROP DATABASE " + DB_NAME);
 
             String sql = "CREATE DATABASE " + DB_NAME;
             stmt.executeUpdate(sql);
             log.debug("Database created");
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e); //TODO: log instead
         } finally {
             try {
                 if (stmt != null) {
@@ -64,16 +65,19 @@ public class DatabaseInitializer {
             log.debug("Creating tables...");
             stmt = conn.createStatement();
 
-            stmt.executeUpdate("CREATE TABLE author (id int4 NOT NULL, name varchar NOT NULL, dateOfBirth date NOT NULL, dateOfDeath date, genderId int4 NOT NULL, PRIMARY KEY(id))");
-            stmt.executeUpdate("CREATE TABLE gender (id int4 NOT NULL, name varchar NOT NULL, PRIMARY KEY(id))");
-            stmt.executeUpdate("CREATE TABLE book (id int4 NOT NULL, name varchar NOT NULL, yearOfPublication int4 NOT NULL, PRIMARY KEY(id))");
+            stmt.executeUpdate("CREATE TABLE author (id SERIAL NOT NULL, name varchar NOT NULL, dateOfBirth date NOT NULL, dateOfDeath date, genderId int4 NOT NULL, PRIMARY KEY(id))");
+            stmt.executeUpdate("CREATE TABLE gender (id SERIAL NOT NULL, name varchar NOT NULL, PRIMARY KEY(id))");
+            stmt.executeUpdate("CREATE TABLE book (id SERIAL NOT NULL, name varchar NOT NULL, yearOfPublication int4 NOT NULL, PRIMARY KEY(id))");
             stmt.executeUpdate("CREATE TABLE booksAuthors (id SERIAL NOT NULL, bookId int4 NOT NULL, authorId int4 NOT NULL)");
-            stmt.executeUpdate("CREATE TABLE publisher (id int4 NOT NULL, name varchar NOT NULL, PRIMARY KEY(id))");
+            stmt.executeUpdate("CREATE TABLE publisher (id SERIAL NOT NULL, name varchar NOT NULL, PRIMARY KEY(id))");
             stmt.executeUpdate("CREATE TABLE publishersBooks (id SERIAL NOT NULL, publisherId int4 NOT NULL, bookId int4 NOT NULL)");
-            stmt.executeUpdate("CREATE TABLE dataset (id int4 NOT NULL, PRIMARY KEY(id))");
+            stmt.executeUpdate("CREATE TABLE dataset (id SERIAL NOT NULL, PRIMARY KEY(id))");
             stmt.executeUpdate("CREATE TABLE datasetsAuthors (id SERIAL NOT NULL, datasetId int4 NOT NULL, authorId int4 NOT NULL)");
             stmt.executeUpdate("CREATE TABLE datasetsBooks (id SERIAL NOT NULL, datasetId int4 NOT NULL, bookId int4 NOT NULL)");
             stmt.executeUpdate("CREATE TABLE datasetsPublishers (id SERIAL NOT NULL, datasetId int4 NOT NULL, publisherId int4 NOT NULL)");
+            stmt.executeUpdate("ALTER TABLE author ADD CONSTRAINT author_uq UNIQUE (name, dateOfBirth, genderId)");
+            stmt.executeUpdate("ALTER TABLE book ADD CONSTRAINT book_uq UNIQUE (name, yearOfPublication)");
+            stmt.executeUpdate("ALTER TABLE publisher ADD CONSTRAINT publisher_uq UNIQUE (name)");
             stmt.executeUpdate("ALTER TABLE author ADD CONSTRAINT Ref_Author_to_Gender FOREIGN KEY (genderId) REFERENCES gender(id) MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE");
             stmt.executeUpdate("ALTER TABLE booksAuthors ADD CONSTRAINT Ref_Book_has_Author_to_Book FOREIGN KEY (bookId) REFERENCES book(id) MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE");
             stmt.executeUpdate("ALTER TABLE booksAuthors ADD CONSTRAINT Ref_Book_has_Author_to_Author FOREIGN KEY (authorId) REFERENCES author(id) MATCH SIMPLE ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE");
@@ -89,7 +93,7 @@ public class DatabaseInitializer {
 
             log.debug("Tables created");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e); //TODO: log instead
         } finally {
             try {
                 if (stmt != null) {
