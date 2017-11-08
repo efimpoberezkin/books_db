@@ -38,29 +38,6 @@ CREATE TABLE publisher_book (
 	book_id int4 NOT NULL
 );
 
-CREATE TABLE dataset (
-	id SERIAL NOT NULL,
-	PRIMARY KEY(id)
-);
-
-CREATE TABLE datasetsAuthors (
-	id SERIAL NOT NULL,
-	datasetId int4 NOT NULL,
-	author_id int4 NOT NULL
-);
-
-CREATE TABLE datasetsBooks (
-	id SERIAL NOT NULL,
-	datasetId int4 NOT NULL,
-	book_id int4 NOT NULL
-);
-
-CREATE TABLE datasetsPublishers (
-	id SERIAL NOT NULL,
-	datasetId int4 NOT NULL,
-	publisher_id int4 NOT NULL
-);
-
 
 ALTER TABLE author
     ADD CONSTRAINT author_uq
@@ -112,48 +89,6 @@ ALTER TABLE publisher_book ADD CONSTRAINT Ref_Publisher_has_Book_to_Publisher FO
 
 ALTER TABLE publisher_book ADD CONSTRAINT Ref_Publisher_has_Book_to_Book FOREIGN KEY (book_id)
 	REFERENCES book(id)
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-
-ALTER TABLE datasetsAuthors ADD CONSTRAINT Ref_Dataset_has_Author_to_Dataset FOREIGN KEY (datasetId)
-	REFERENCES dataset(id)
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-
-ALTER TABLE datasetsAuthors ADD CONSTRAINT Ref_Dataset_has_Author_to_Author FOREIGN KEY (author_id)
-	REFERENCES author(id)
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-
-ALTER TABLE datasetsBooks ADD CONSTRAINT Ref_Dataset_has_Book_to_Dataset FOREIGN KEY (datasetId)
-	REFERENCES dataset(id)
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-
-ALTER TABLE datasetsBooks ADD CONSTRAINT Ref_Dataset_has_Book_to_Book FOREIGN KEY (book_id)
-	REFERENCES book(id)
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-
-ALTER TABLE datasetsPublishers ADD CONSTRAINT Ref_Dataset_has_Publisher_to_Dataset FOREIGN KEY (datasetId)
-	REFERENCES dataset(id)
-	MATCH SIMPLE
-	ON DELETE NO ACTION
-	ON UPDATE NO ACTION
-	NOT DEFERRABLE;
-
-ALTER TABLE datasetsPublishers ADD CONSTRAINT Ref_Dataset_has_Publisher_to_Publisher FOREIGN KEY (publisher_id)
-	REFERENCES publisher(id)
 	MATCH SIMPLE
 	ON DELETE NO ACTION
 	ON UPDATE NO ACTION

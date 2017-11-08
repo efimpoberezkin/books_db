@@ -23,8 +23,6 @@ public class DatabaseInitializer {
         Connection conn = null;
         Statement stmt = null;
         try {
-            Class.forName(JDBC_DRIVER);
-
             log.debug("Connecting to database...");
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
 
@@ -42,7 +40,7 @@ public class DatabaseInitializer {
             String sql = "CREATE DATABASE " + DB_NAME;
             stmt.executeUpdate(sql);
             log.debug("Database created");
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             log.error("Failed to create database", e);
         } finally {
             try {
