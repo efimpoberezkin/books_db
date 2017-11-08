@@ -37,8 +37,11 @@ public class DatabaseInitializer {
             log.debug("Creating database...");
             stmt = conn.createStatement();
 
-            //drops database to perform a clean test
-            //stmt.executeUpdate("DROP DATABASE " + DB_NAME);
+            // drops database to perform a clean start
+            try {
+                stmt.executeUpdate("DROP DATABASE " + DB_NAME);
+            } catch (SQLException e) { // ignore
+            }
 
             String sql = "CREATE DATABASE " + DB_NAME;
             stmt.executeUpdate(sql);

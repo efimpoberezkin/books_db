@@ -20,7 +20,7 @@ CREATE TABLE book (
 	PRIMARY KEY(id)
 );
 
-CREATE TABLE booksAuthors (
+CREATE TABLE book_author (
 	id SERIAL NOT NULL,
 	bookId int4 NOT NULL,
 	authorId int4 NOT NULL
@@ -32,7 +32,7 @@ CREATE TABLE publisher (
 	PRIMARY KEY(id)
 );
 
-CREATE TABLE publishersBooks (
+CREATE TABLE publisher_book (
 	id SERIAL NOT NULL,
 	publisherId int4 NOT NULL,
 	bookId int4 NOT NULL
@@ -74,12 +74,12 @@ ALTER TABLE publisher
     ADD CONSTRAINT publisher_uq
     UNIQUE (name);
 
-ALTER TABLE booksAuthors
-    ADD CONSTRAINT booksAuthors_uq
+ALTER TABLE book_author
+    ADD CONSTRAINT book_author_uq
     UNIQUE (bookId, authorId);
 
-ALTER TABLE publishersBooks
-    ADD CONSTRAINT publishersBooks_uq
+ALTER TABLE publisher_book
+    ADD CONSTRAINT publisher_book_uq
     UNIQUE (publisherId, bookId);
 
 ALTER TABLE author ADD CONSTRAINT Ref_Author_to_Gender FOREIGN KEY (genderId)
@@ -89,28 +89,28 @@ ALTER TABLE author ADD CONSTRAINT Ref_Author_to_Gender FOREIGN KEY (genderId)
 	ON UPDATE NO ACTION
 	NOT DEFERRABLE;
 
-ALTER TABLE booksAuthors ADD CONSTRAINT Ref_Book_has_Author_to_Book FOREIGN KEY (bookId)
+ALTER TABLE book_author ADD CONSTRAINT Ref_Book_has_Author_to_Book FOREIGN KEY (bookId)
 	REFERENCES book(id)
 	MATCH SIMPLE
 	ON DELETE NO ACTION
 	ON UPDATE NO ACTION
 	NOT DEFERRABLE;
 
-ALTER TABLE booksAuthors ADD CONSTRAINT Ref_Book_has_Author_to_Author FOREIGN KEY (authorId)
+ALTER TABLE book_author ADD CONSTRAINT Ref_Book_has_Author_to_Author FOREIGN KEY (authorId)
 	REFERENCES author(id)
 	MATCH SIMPLE
 	ON DELETE NO ACTION
 	ON UPDATE NO ACTION
 	NOT DEFERRABLE;
 
-ALTER TABLE publishersBooks ADD CONSTRAINT Ref_Publisher_has_Book_to_Publisher FOREIGN KEY (publisherId)
+ALTER TABLE publisher_book ADD CONSTRAINT Ref_Publisher_has_Book_to_Publisher FOREIGN KEY (publisherId)
 	REFERENCES publisher(id)
 	MATCH SIMPLE
 	ON DELETE NO ACTION
 	ON UPDATE NO ACTION
 	NOT DEFERRABLE;
 
-ALTER TABLE publishersBooks ADD CONSTRAINT Ref_Publisher_has_Book_to_Book FOREIGN KEY (bookId)
+ALTER TABLE publisher_book ADD CONSTRAINT Ref_Publisher_has_Book_to_Book FOREIGN KEY (bookId)
 	REFERENCES book(id)
 	MATCH SIMPLE
 	ON DELETE NO ACTION

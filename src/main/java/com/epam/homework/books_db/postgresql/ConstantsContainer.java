@@ -9,8 +9,8 @@ final class ConstantsContainer {
     static final String DATASETS_AUTHORS = "datasetsAuthors";
     static final String DATASETS_BOOKS = "datasetsBooks";
     static final String DATASETS_PUBLISHERS = "datasetsPublishers";
-    static final String BOOKS_AUTHORS = "booksAuthors";
-    static final String PUBLISHERS_BOOKS = "publishersBooks";
+    static final String BOOKS_AUTHORS = "book_author";
+    static final String PUBLISHERS_BOOKS = "publisher_book";
     static final String ID = "id";
     static final String DATASET_ID = "datasetId";
     static final String AUTHOR_ID = "authorId";

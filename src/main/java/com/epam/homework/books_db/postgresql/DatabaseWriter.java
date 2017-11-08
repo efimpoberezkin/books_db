@@ -152,7 +152,7 @@ class DatabaseWriter {
                     String insertBooksAuthorsSql = "INSERT INTO " + BOOKS_AUTHORS
                             + "(" + BOOK_ID + ", " + AUTHOR_ID + ") VALUES"
                             + "(" + key + ",?)"
-                            + "ON CONFLICT ON CONSTRAINT booksAuthors_uq DO NOTHING";
+                            + "ON CONFLICT ON CONSTRAINT book_author_uq DO NOTHING";
 
                     PreparedStatement prepStmt = null;
                     try {
@@ -206,7 +206,7 @@ class DatabaseWriter {
                     String insertPublishersBooksSql = "INSERT INTO " + PUBLISHERS_BOOKS
                             + "(" + PUBLISHER_ID + ", " + BOOK_ID + ") VALUES"
                             + "(" + key + ",?)"
-                            + "ON CONFLICT ON CONSTRAINT publishersBooks_uq DO NOTHING";
+                            + "ON CONFLICT ON CONSTRAINT publisher_book_uq DO NOTHING";
 
                     PreparedStatement prepStmt = null;
                     try {
