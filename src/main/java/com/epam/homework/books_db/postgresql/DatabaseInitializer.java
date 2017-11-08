@@ -25,7 +25,7 @@ public class DatabaseInitializer {
     private static final String USER = "postgres";
     private static final String PASSWORD = "123";
 
-    public static void initialize() {
+    public static void initialize(boolean tryToDropBeforeInitializing) {
         Connection conn = null;
         Statement stmt = null;
         try {
@@ -37,10 +37,12 @@ public class DatabaseInitializer {
             log.debug("Creating database...");
             stmt = conn.createStatement();
 
-            // drops database to perform a clean start
-            try {
-                stmt.executeUpdate("DROP DATABASE " + DB_NAME);
-            } catch (SQLException e) { // ignore
+            if (tryToDropBeforeInitializing) {
+                try {
+                    String sql = "DROP DATABASE " + DB_NAME;
+                    stmt.executeUpdate(sql);
+                } catch (SQLException e) { // ignore
+                }
             }
 
             String sql = "CREATE DATABASE " + DB_NAME;

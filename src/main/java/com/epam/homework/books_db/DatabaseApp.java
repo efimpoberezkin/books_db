@@ -18,7 +18,7 @@ public class DatabaseApp {
 
     public static void main(String[] args) {
         if (dbInitializationFlag) {
-            DatabaseInitializer.initialize();
+            DatabaseInitializer.initialize(true);
         }
         testDatabase();
     }
