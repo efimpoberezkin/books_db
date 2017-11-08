@@ -17,18 +17,26 @@ public class DatabaseApp {
     private static final int DATASET_ID_TO_LOAD = 1;
 
     public static void main(String[] args) {
+        performTest();
+    }
+
+    private static void performTest() {
+        log.info("*** Initializing database ***");
         if (dbInitializationFlag) {
             DatabaseInitializer.initialize(true);
         }
-        testDatabase();
+
+        log.info("*** Reading dataset from xml and writing it to database ***");
+        populateDatabaseFromXml();
+
+        log.info("*** Reading from database ***");
+        readFromDatabase();
     }
 
-    private static void testDatabase() {
-        log.info("*** Reading dataset from xml and writing it to database ***");
-        Dataset exampleDataset = null;
+    private static void populateDatabaseFromXml() {
         try {
             log.debug("Loading dataset from xml...");
-            exampleDataset = new DomParser().load(XML_PATH);
+            Dataset exampleDataset = new DomParser().load(XML_PATH);
             log.debug("Dataset loaded from xml");
 
             new DatabaseDao().save(exampleDataset);
@@ -37,21 +45,14 @@ public class DatabaseApp {
         } catch (DaoException e) {
             log.error("Failed to save dataset to database", e);
         }
+    }
 
-        log.info("*** Reading dataset from database ***");
-        Dataset loadedDataset = null;
+    private static void readFromDatabase() {
         try {
-            loadedDataset = new DatabaseDao().load(DATASET_ID_TO_LOAD);
+            Dataset loadedDataset = new DatabaseDao().load(DATASET_ID_TO_LOAD);
+            new DatasetPrinter().customPrint(loadedDataset);
         } catch (DaoException e) {
             log.error("Failed to load dataset from database", e);
-        }
-
-        new DatasetPrinter().customPrint(loadedDataset);
-
-        if (loadedDataset.equals(exampleDataset)) {
-            System.out.println("\nLoaded dataset is correct");
-        } else {
-            System.out.println("\nLoaded dataset is not correct");
         }
     }
 }
