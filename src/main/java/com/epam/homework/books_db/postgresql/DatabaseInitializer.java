@@ -12,18 +12,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import static com.epam.homework.books_db.postgresql.ConstantsContainer.*;
+
 public class DatabaseInitializer {
 
     private static final String INITIALIZATION_SCRIPT = "src\\main\\resources\\sql\\db_initialization.sql";
-
     private static final Logger log = Logger.getRootLogger();
-
-    private static final String JDBC_DRIVER = "org.postgresql.Driver";
-    private static final String URL = "jdbc:postgresql://localhost:5432/";
-    private static final String DB_NAME = "booksdb";
-
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "123";
 
     public static void initialize(boolean tryToDropBeforeInitializing) {
         Connection conn = null;

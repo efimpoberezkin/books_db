@@ -2,6 +2,13 @@ package com.epam.homework.books_db.postgresql;
 
 final class ConstantsContainer {
 
+    static final String JDBC_DRIVER = "org.postgresql.Driver";
+    static final String URL = "jdbc:postgresql://localhost:5432/";
+    static final String DB_NAME = "booksdb";
+
+    static final String USER = "postgres";
+    static final String PASSWORD = "123";
+
     static final String DATASET = "dataset";
     static final String AUTHOR = "author";
     static final String BOOK = "book";

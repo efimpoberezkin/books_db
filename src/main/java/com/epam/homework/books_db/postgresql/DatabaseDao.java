@@ -9,15 +9,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import static com.epam.homework.books_db.postgresql.ConstantsContainer.*;
+
 public class DatabaseDao {
 
     private static final Logger log = Logger.getRootLogger();
-
-    private static final String JDBC_DRIVER = "org.postgresql.Driver";
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/booksdb";
-
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "123";
 
     public void save(Dataset dataset) throws DaoException {
         Connection conn = null;
@@ -25,7 +21,7 @@ public class DatabaseDao {
             Class.forName(JDBC_DRIVER);
 
             log.debug("Connecting to database...");
-            conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            conn = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
 
             log.debug("Saving dataset to database...");
             new DatabaseWriter(conn).write(dataset);
@@ -52,7 +48,7 @@ public class DatabaseDao {
             Class.forName(JDBC_DRIVER);
 
             log.debug("Connecting to database...");
-            conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            conn = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
 
             log.debug("Loading dataset from database...");
             loadedDataset = new DatabaseReader(conn).read(id);
