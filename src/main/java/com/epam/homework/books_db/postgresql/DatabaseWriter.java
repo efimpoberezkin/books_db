@@ -149,7 +149,7 @@ class DatabaseWriter {
 
                     writeAuthors(book.getAuthors());
 
-                    String insertBooksAuthorsSql = "INSERT INTO " + BOOKS_AUTHORS
+                    String insertBooksAuthorsSql = "INSERT INTO " + BOOK_AUTHOR
                             + "(" + BOOK_ID + ", " + AUTHOR_ID + ") VALUES"
                             + "(" + key + ",?)"
                             + "ON CONFLICT ON CONSTRAINT book_author_uq DO NOTHING";
@@ -203,7 +203,7 @@ class DatabaseWriter {
 
                     writeBooks(publisher.getPublishedBooks());
 
-                    String insertPublishersBooksSql = "INSERT INTO " + PUBLISHERS_BOOKS
+                    String insertPublishersBooksSql = "INSERT INTO " + PUBLISHER_BOOK
                             + "(" + PUBLISHER_ID + ", " + BOOK_ID + ") VALUES"
                             + "(" + key + ",?)"
                             + "ON CONFLICT ON CONSTRAINT publisher_book_uq DO NOTHING";

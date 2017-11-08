@@ -116,9 +116,9 @@ class DatabaseReader {
                     Year yearOfPublication = Year.of(rs.getInt(YEAR_OF_PUBLICATION));
 
                     String selectBookAuthorsSql = "SELECT * FROM " + AUTHOR
-                            + " JOIN " + BOOKS_AUTHORS
-                            + " ON " + AUTHOR + "." + ID + "=" + BOOKS_AUTHORS + "." + AUTHOR_ID
-                            + " WHERE " + BOOKS_AUTHORS + "." + BOOK_ID + "=" + id;
+                            + " JOIN " + BOOK_AUTHOR
+                            + " ON " + AUTHOR + "." + ID + "=" + BOOK_AUTHOR + "." + AUTHOR_ID
+                            + " WHERE " + BOOK_AUTHOR + "." + BOOK_ID + "=" + id;
                     List<Author> bookAuthors = getAuthors(selectBookAuthorsSql);
 
                     book = new Book(name, yearOfPublication, bookAuthors.toArray(new Author[bookAuthors.size()]));
@@ -154,9 +154,9 @@ class DatabaseReader {
                     String name = rs.getString(NAME);
 
                     String selectPublisherBooksSql = "SELECT * FROM " + BOOK
-                            + " JOIN " + PUBLISHERS_BOOKS
-                            + " ON " + BOOK + "." + ID + "=" + PUBLISHERS_BOOKS + "." + BOOK_ID
-                            + " WHERE " + PUBLISHERS_BOOKS + "." + PUBLISHER_ID + "=" + id;
+                            + " JOIN " + PUBLISHER_BOOK
+                            + " ON " + BOOK + "." + ID + "=" + PUBLISHER_BOOK + "." + BOOK_ID
+                            + " WHERE " + PUBLISHER_BOOK + "." + PUBLISHER_ID + "=" + id;
                     List<Book> publisherBooks = getBooks(selectPublisherBooksSql);
 
                     publisher = new Publisher(name, publisherBooks.toArray(new Book[publisherBooks.size()]));
