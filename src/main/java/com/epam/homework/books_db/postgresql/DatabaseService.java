@@ -16,15 +16,20 @@ public class DatabaseService {
         List<Book> books = dataset.getBooks();
         List<Author> authors = dataset.getAuthors();
 
-        Set savedBooks = new HashSet();
-        Set savedAuthors = new HashSet();
+        Set<Book> savedBooks = new HashSet<>();
+        Set<Author> savedAuthors = new HashSet<>();
 
         PublishersDAO publishersDAO = new PublishersDAO();
         BooksDAO booksDAO = new BooksDAO();
         AuthorsDAO authorsDAO = new AuthorsDAO();
 
-        publishersDAO.addAll(publishers);
-        publishers.forEach(publisher -> savedBooks.addAll(publisher.getPublishedBooks()));
+        for (Publisher publisher : publishers) {
+            publishersDAO.add(publisher);
+
+            List<Book> publisherBooks = publisher.getPublishedBooks();
+            savedBooks.addAll(publisherBooks);
+            publisherBooks.forEach(book -> savedAuthors.addAll(book.getAuthors()));
+        }
 
         for (Book book : books) {
             if (!savedBooks.contains(book)) {
