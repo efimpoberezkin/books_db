@@ -11,30 +11,36 @@ public class DatabaseApp {
 
     private static final String JDBC_DRIVER = "org.postgresql.Driver";
     private static final String XML_PATH = "src\\main\\resources\\xml\\example_dataset.xml";
+    private static final String DB_DEPLOYMENT_PARAMETER = "deployDatabase";
     private static final Logger log = Logger.getRootLogger();
-    private static final boolean dbInitializationFlag = true;
 
     public static void main(String[] args) {
-        performTest();
+        deployDatabase(args);
     }
 
-    private static void performTest() {
+    private static void deployDatabase(String[] args) {
+        String parameter = null;
         try {
-            Class.forName(JDBC_DRIVER);
-        } catch (ClassNotFoundException e) {
-            log.error("Could not load driver class", e);
+            parameter = args[0];
+        } catch (ArrayIndexOutOfBoundsException e) { // ignore
         }
 
-        log.info("*** Initializing database ***");
-        if (dbInitializationFlag) {
+        if (DB_DEPLOYMENT_PARAMETER.equals(parameter)) {
+            try {
+                Class.forName(JDBC_DRIVER);
+            } catch (ClassNotFoundException e) {
+                log.error("Could not load driver class", e);
+            }
+
+            log.info("*** Initializing database ***");
             DatabaseInitializer.initialize(true);
+
+            log.info("*** Populating database from xml ***");
+            populateDatabaseFromXml();
         }
 
-        log.info("*** Populating database from xml ***");
-        populateDatabaseFromXml();
-
-        log.info("*** Reading from database ***");
-        readFromDatabase();
+        //log.info("*** Reading from database ***");
+        //readFromDatabase();
     }
 
     private static void populateDatabaseFromXml() {
