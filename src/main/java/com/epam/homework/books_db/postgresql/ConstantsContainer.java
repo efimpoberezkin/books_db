@@ -13,14 +13,14 @@ final class ConstantsContainer {
     static final String PUBLISHER_BOOK = "publisher_book";
     static final String ID = "id";
     static final String DATASET_ID = "datasetId";
-    static final String AUTHOR_ID = "authorId";
-    static final String BOOK_ID = "bookId";
-    static final String PUBLISHER_ID = "publisherId";
-    static final String GENDER_ID = "genderId";
+    static final String AUTHOR_ID = "author_id";
+    static final String BOOK_ID = "book_id";
+    static final String PUBLISHER_ID = "publisher_id";
+    static final String GENDER_ID = "gender_id";
     static final String NAME = "name";
-    static final String DATE_OF_BIRTH = "dateOfBirth";
-    static final String DATE_OF_DEATH = "dateOfDeath";
-    static final String YEAR_OF_PUBLICATION = "yearOfPublication";
+    static final String DATE_OF_BIRTH = "date_of_birth";
+    static final String DATE_OF_DEATH = "date_of_death";
+    static final String YEAR_OF_PUBLICATION = "year_of_publication";
     static final int MALE_ID = 1;
     static final int FEMALE_ID = 2;
 
