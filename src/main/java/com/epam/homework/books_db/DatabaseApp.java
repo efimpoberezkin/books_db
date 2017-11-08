@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 
 public class DatabaseApp {
 
+    private static final String JDBC_DRIVER = "org.postgresql.Driver";
     private static final String XML_PATH = "src\\main\\resources\\xml\\example_dataset.xml";
     private static final Logger log = Logger.getRootLogger();
     private static final boolean dbInitializationFlag = true;
@@ -19,7 +20,7 @@ public class DatabaseApp {
 
     private static void performTest() {
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName(JDBC_DRIVER);
         } catch (ClassNotFoundException e) {
             log.error("Could not load driver class", e);
         }
