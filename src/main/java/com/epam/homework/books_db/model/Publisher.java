@@ -30,9 +30,9 @@ public class Publisher {
         Publisher publisher = (Publisher) o;
 
         if (getName() != null ? !getName().equals(publisher.getName()) : publisher.getName() != null) return false;
-        return books != null
-                ? (books.size() == publisher.books.size() && books.containsAll(publisher.books))
-                : publisher.books == null;
+        return getPublishedBooks() != null
+                ? (getPublishedBooks().size() == publisher.getPublishedBooks().size() && getPublishedBooks().containsAll(publisher.getPublishedBooks()))
+                : publisher.getPublishedBooks() == null;
     }
 
     @Override

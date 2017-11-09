@@ -40,7 +40,7 @@ public class Book {
         if (getYearOfPublication() != null ? !getYearOfPublication().equals(book.getYearOfPublication()) : book.getYearOfPublication() != null)
             return false;
         return getAuthors() != null
-                ? (authors.size() == book.authors.size() && authors.containsAll(book.authors))
+                ? (getAuthors().size() == book.getAuthors().size() && getAuthors().containsAll(book.getAuthors()))
                 : book.getAuthors() == null;
     }
 

@@ -38,15 +38,15 @@ public class Dataset {
         Dataset dataset = (Dataset) o;
 
         if (getAuthors() != null
-                ? !(authors.size() == dataset.authors.size() && authors.containsAll(dataset.authors))
+                ? !(getAuthors().size() == dataset.getAuthors().size() && getAuthors().containsAll(dataset.getAuthors()))
                 : dataset.getAuthors() != null)
             return false;
         if (getBooks() != null
-                ? !(books.size() == dataset.books.size() && books.containsAll(dataset.books))
+                ? !(getBooks().size() == dataset.getBooks().size() && getBooks().containsAll(dataset.getBooks()))
                 : dataset.getBooks() != null)
             return false;
         return getPublishers() != null
-                ? (publishers.size() == dataset.publishers.size() && publishers.containsAll(dataset.publishers))
+                ? (getPublishers().size() == dataset.getPublishers().size() && getPublishers().containsAll(dataset.getPublishers()))
                 : dataset.getPublishers() == null;
     }
 
