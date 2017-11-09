@@ -16,9 +16,15 @@ public class BooksDAO {
      * @return generated id
      */
     public int add(Book book) throws DAOException {
-        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
-             Statement stmt = con.createStatement()) {
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD)) {
+            return baseAdd(book, con);
+        } catch (SQLException e) {
+            throw new DAOException("Failed to add book", e);
+        }
+    }
 
+    private int baseAdd(Book book, Connection con) throws SQLException {
+        try (Statement stmt = con.createStatement()) {
             stmt.executeUpdate(createSqlForAdd(book), Statement.RETURN_GENERATED_KEYS);
             int id = -1;
             try (ResultSet rs = stmt.getGeneratedKeys()) {
@@ -39,9 +45,6 @@ public class BooksDAO {
             }
 
             return id;
-
-        } catch (SQLException e) {
-            throw new DAOException("Failed to add book", e);
         }
     }
 
@@ -62,12 +65,16 @@ public class BooksDAO {
      * @return list of generated ids
      */
     public List<Integer> addAll(List<Book> books) throws DAOException {
-        List<Integer> generatedIds = new ArrayList<>();
-        for (Book book : books) {
-            int id = add(book);
-            generatedIds.add(id);
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD)) {
+            List<Integer> generatedIds = new ArrayList<>();
+            for (Book book : books) {
+                int id = baseAdd(book, con);
+                generatedIds.add(id);
+            }
+            return generatedIds;
+        } catch (SQLException e) {
+            throw new DAOException("Failed to add authors", e);
         }
-        return generatedIds;
     }
 
     public Book get(int id) throws DAOException {
@@ -164,7 +171,6 @@ public class BooksDAO {
 
     private String createSqlForUpdate(int id, String name, Year yearOfPublication) {
         String nameStr = "\'" + name + "\'";
-
         String format = "UPDATE %s SET %s=%s, %s=%s WHERE %s=%s";
 
         return String.format(format, BOOK, NAME, nameStr, YEAR_OF_PUBLICATION, yearOfPublication, ID, id);

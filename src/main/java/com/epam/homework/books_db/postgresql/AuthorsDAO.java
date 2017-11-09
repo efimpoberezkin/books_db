@@ -17,8 +17,15 @@ public class AuthorsDAO {
      * @return generated id
      */
     public int add(Author author) throws DAOException {
-        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
-             Statement stmt = con.createStatement()) {
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD)) {
+            return baseAdd(author, con);
+        } catch (SQLException e) {
+            throw new DAOException("Failed to add author", e);
+        }
+    }
+
+    private int baseAdd(Author author, Connection con) throws SQLException {
+        try (Statement stmt = con.createStatement()) {
             stmt.executeUpdate(createSqlForAdd(author), Statement.RETURN_GENERATED_KEYS);
             int id = -1;
             try (ResultSet rs = stmt.getGeneratedKeys()) {
@@ -27,8 +34,6 @@ public class AuthorsDAO {
                 }
             }
             return id;
-        } catch (SQLException e) {
-            throw new DAOException("Failed to add author", e);
         }
     }
 
@@ -53,12 +58,16 @@ public class AuthorsDAO {
      * @return list of generated ids
      */
     public List<Integer> addAll(List<Author> authors) throws DAOException {
-        List<Integer> generatedIds = new ArrayList<>();
-        for (Author author : authors) {
-            int id = add(author);
-            generatedIds.add(id);
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD)) {
+            List<Integer> generatedIds = new ArrayList<>();
+            for (Author author : authors) {
+                int id = baseAdd(author, con);
+                generatedIds.add(id);
+            }
+            return generatedIds;
+        } catch (SQLException e) {
+            throw new DAOException("Failed to add authors", e);
         }
-        return generatedIds;
     }
 
     public Author get(int id) throws DAOException {
