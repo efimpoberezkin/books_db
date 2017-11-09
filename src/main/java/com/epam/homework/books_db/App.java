@@ -21,7 +21,7 @@ public class App {
     }
 
     private static void performTests() {
-        Dataset exampleDataset = DatasetInitializer.getAnotherExampleDataset();
+        Dataset exampleDataset = new DatasetInitializer().getAnotherExampleDataset();
         new DatasetPrinter().basicPrint(exampleDataset);
 
         log.info("*** Testing standard serializer ***");

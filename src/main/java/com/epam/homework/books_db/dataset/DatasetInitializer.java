@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DatasetInitializer {
 
-    public static Dataset getExampleDataset() {
+    public Dataset getExampleDataset() {
         List<Author> authors = new ArrayList<>();
         List<Book> books = new ArrayList<>();
         List<Publisher> publishers = new ArrayList<>();
@@ -22,7 +22,7 @@ public class DatasetInitializer {
         return new Dataset(authors, books, publishers);
     }
 
-    public static Dataset getAnotherExampleDataset() {
+    public Dataset getAnotherExampleDataset() {
         List<Author> authors = new ArrayList<>();
         List<Book> books = new ArrayList<>();
         List<Publisher> publishers = new ArrayList<>();
@@ -31,7 +31,7 @@ public class DatasetInitializer {
         return new Dataset(authors, books, publishers);
     }
 
-    public static Dataset getSmallExampleDataset() {
+    public Dataset getSmallExampleDataset() {
         List<Author> authors = new ArrayList<>();
         List<Book> books = new ArrayList<>();
         List<Publisher> publishers = new ArrayList<>();
@@ -40,7 +40,7 @@ public class DatasetInitializer {
         return new Dataset(authors, books, publishers);
     }
 
-    private static void initializeExampleDataset(List<Author> authors, List<Book> books, List<Publisher> publishers) {
+    private void initializeExampleDataset(List<Author> authors, List<Book> books, List<Publisher> publishers) {
         Author authorCervantes
                 = new Author("Cervantes", LocalDate.parse("1980-01-13"), Gender.MALE);
         Author authorChristie
@@ -107,7 +107,7 @@ public class DatasetInitializer {
         )));
     }
 
-    private static void initializeAnotherExampleDataset(List<Author> authors, List<Book> books, List<Publisher> publishers) {
+    private void initializeAnotherExampleDataset(List<Author> authors, List<Book> books, List<Publisher> publishers) {
         Author authorCervantes
                 = new Author("Cervantes", LocalDate.parse("1980-01-13"), Gender.MALE);
         Author authorChristie
@@ -177,7 +177,7 @@ public class DatasetInitializer {
         )));
     }
 
-    private static void initializeSmallExampleDataset(List<Author> authors, List<Book> books, List<Publisher> publishers) {
+    private void initializeSmallExampleDataset(List<Author> authors, List<Book> books, List<Publisher> publishers) {
         Author authorCervantes
                 = new Author("Cervantes", LocalDate.parse("1980-01-13"), Gender.MALE);
         Author authorChristie
