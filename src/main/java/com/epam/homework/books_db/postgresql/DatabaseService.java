@@ -19,9 +19,9 @@ public class DatabaseService {
         Set<Book> savedBooks = new HashSet<>();
         Set<Author> savedAuthors = new HashSet<>();
 
-        PublishersDAO publishersDAO = new PublishersDAO();
-        BooksDAO booksDAO = new BooksDAO();
-        AuthorsDAO authorsDAO = new AuthorsDAO();
+        DAO<Publisher> publishersDAO = new PublishersDAOImpl();
+        DAO<Book> booksDAO = new BooksDAOImpl();
+        DAO<Author> authorsDAO = new AuthorsDAOImpl();
 
         for (Publisher publisher : publishers) {
             publishersDAO.add(publisher);
@@ -46,9 +46,9 @@ public class DatabaseService {
     }
 
     public Dataset readDataset() {
-        List<Author> authors = new AuthorsDAO().getAll();
-        List<Book> books = new BooksDAO().getAll();
-        List<Publisher> publishers = new PublishersDAO().getAll();
+        List<Author> authors = new AuthorsDAOImpl().getAll();
+        List<Book> books = new BooksDAOImpl().getAll();
+        List<Publisher> publishers = new PublishersDAOImpl().getAll();
 
         return new Dataset(authors, books, publishers);
     }
