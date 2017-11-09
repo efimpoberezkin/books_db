@@ -24,36 +24,6 @@ public class AuthorsDAO {
         }
     }
 
-    private int baseAdd(Author author, Connection con) throws SQLException {
-        try (Statement stmt = con.createStatement()) {
-            stmt.executeUpdate(createSqlForAdd(author), Statement.RETURN_GENERATED_KEYS);
-            int id = -1;
-            try (ResultSet rs = stmt.getGeneratedKeys()) {
-                if (rs.next()) {
-                    id = rs.getInt(1);
-                }
-            }
-            return id;
-        }
-    }
-
-    private String createSqlForAdd(Author author) {
-        String name = "\'" + author.getName() + "\'";
-        String dateOfBirth = "\'" + author.getDateOfBirth().toString() + "\'";
-        String dateOfDeath = author.getDateOfDeath().isPresent()
-                ? "\'" + author.getDateOfDeath().get().toString() + "\'"
-                : "NULL";
-        int gender = author.getGender() == Gender.MALE ? MALE_ID : FEMALE_ID;
-
-        // updating so that RETURNING works
-        // adding ;-- so that Statement doesn't break RETURNING option
-        String format = "INSERT INTO %s (%s, %s, %s, %s) VALUES (%s, %s, %s, %s)"
-                + "ON CONFLICT ON CONSTRAINT %s DO UPDATE SET %s=%s RETURNING %s;--";
-
-        return String.format(format, AUTHOR, NAME, DATE_OF_BIRTH, DATE_OF_DEATH, GENDER_ID,
-                name, dateOfBirth, dateOfDeath, gender, AUTHOR_UQ, NAME, name, ID);
-    }
-
     /**
      * @return list of generated ids
      */
@@ -94,12 +64,6 @@ public class AuthorsDAO {
         }
     }
 
-    private PreparedStatement createPreparedStatementForGet(Connection con, int id) throws SQLException {
-        String format = "SELECT %s, %s, %s, %s FROM %s WHERE %s=%s";
-        String sql = String.format(format, NAME, DATE_OF_BIRTH, DATE_OF_DEATH, GENDER_ID, AUTHOR, ID, id);
-        return con.prepareStatement(sql);
-    }
-
     public List<Author> getAll() throws DAOException {
         try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
              PreparedStatement stmt = createPreparedStatementForGetAll(con);
@@ -125,12 +89,6 @@ public class AuthorsDAO {
         }
     }
 
-    private PreparedStatement createPreparedStatementForGetAll(Connection con) throws SQLException {
-        String format = "SELECT %s, %s, %s, %s FROM %s";
-        String sql = String.format(format, NAME, DATE_OF_BIRTH, DATE_OF_DEATH, GENDER_ID, AUTHOR);
-        return con.prepareStatement(sql);
-    }
-
     public void update(int id, String name, LocalDate dateOfBirth, LocalDate dateOfDeath, Gender gender) throws DAOException {
         try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
              Statement stmt = con.createStatement()) {
@@ -139,20 +97,6 @@ public class AuthorsDAO {
         } catch (SQLException e) {
             throw new DAOException("Failed to update author", e);
         }
-    }
-
-    private String createSqlForUpdate(int id, String name, LocalDate dateOfBirth, LocalDate dateOfDeath, Gender gender) {
-        String nameStr = "\'" + name + "\'";
-        String dateOfBirthStr = "\'" + dateOfBirth.toString() + "\'";
-        String dateOfDeathStr = dateOfDeath != null
-                ? "\'" + dateOfDeath.toString() + "\'"
-                : "NULL";
-        int genderInt = gender == Gender.MALE ? MALE_ID : FEMALE_ID;
-
-        String format = "UPDATE %s SET %s=%s, %s=%s, %s=%s, %s=%s WHERE %s=%s";
-
-        return String.format(format, AUTHOR, NAME, nameStr, DATE_OF_BIRTH, dateOfBirthStr,
-                DATE_OF_DEATH, dateOfDeathStr, GENDER_ID, genderInt, ID, id);
     }
 
     public void delete(int id) throws DAOException {
@@ -170,5 +114,61 @@ public class AuthorsDAO {
         } catch (SQLException e) {
             throw new DAOException("Failed to delete author", e);
         }
+    }
+
+    private int baseAdd(Author author, Connection con) throws SQLException {
+        try (Statement stmt = con.createStatement()) {
+            stmt.executeUpdate(createSqlForAdd(author), Statement.RETURN_GENERATED_KEYS);
+            int id = -1;
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    id = rs.getInt(1);
+                }
+            }
+            return id;
+        }
+    }
+
+    private String createSqlForAdd(Author author) {
+        String name = "\'" + author.getName() + "\'";
+        String dateOfBirth = "\'" + author.getDateOfBirth().toString() + "\'";
+        String dateOfDeath = author.getDateOfDeath().isPresent()
+                ? "\'" + author.getDateOfDeath().get().toString() + "\'"
+                : "NULL";
+        int gender = author.getGender() == Gender.MALE ? MALE_ID : FEMALE_ID;
+
+        // updating so that RETURNING works
+        // adding ;-- so that Statement doesn't break RETURNING option
+        String format = "INSERT INTO %s (%s, %s, %s, %s) VALUES (%s, %s, %s, %s)"
+                + "ON CONFLICT ON CONSTRAINT %s DO UPDATE SET %s=%s RETURNING %s;--";
+
+        return String.format(format, AUTHOR, NAME, DATE_OF_BIRTH, DATE_OF_DEATH, GENDER_ID,
+                name, dateOfBirth, dateOfDeath, gender, AUTHOR_UQ, NAME, name, ID);
+    }
+
+    private PreparedStatement createPreparedStatementForGet(Connection con, int id) throws SQLException {
+        String format = "SELECT %s, %s, %s, %s FROM %s WHERE %s=%s";
+        String sql = String.format(format, NAME, DATE_OF_BIRTH, DATE_OF_DEATH, GENDER_ID, AUTHOR, ID, id);
+        return con.prepareStatement(sql);
+    }
+
+    private PreparedStatement createPreparedStatementForGetAll(Connection con) throws SQLException {
+        String format = "SELECT %s, %s, %s, %s FROM %s";
+        String sql = String.format(format, NAME, DATE_OF_BIRTH, DATE_OF_DEATH, GENDER_ID, AUTHOR);
+        return con.prepareStatement(sql);
+    }
+
+    private String createSqlForUpdate(int id, String name, LocalDate dateOfBirth, LocalDate dateOfDeath, Gender gender) {
+        String nameStr = "\'" + name + "\'";
+        String dateOfBirthStr = "\'" + dateOfBirth.toString() + "\'";
+        String dateOfDeathStr = dateOfDeath != null
+                ? "\'" + dateOfDeath.toString() + "\'"
+                : "NULL";
+        int genderInt = gender == Gender.MALE ? MALE_ID : FEMALE_ID;
+
+        String format = "UPDATE %s SET %s=%s, %s=%s, %s=%s, %s=%s WHERE %s=%s";
+
+        return String.format(format, AUTHOR, NAME, nameStr, DATE_OF_BIRTH, dateOfBirthStr,
+                DATE_OF_DEATH, dateOfDeathStr, GENDER_ID, genderInt, ID, id);
     }
 }

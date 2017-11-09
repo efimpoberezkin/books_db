@@ -22,6 +22,91 @@ public class PublishersDAO {
         }
     }
 
+    /**
+     * @return list of generated ids
+     */
+    public List<Integer> addAll(List<Publisher> publishers) throws DAOException {
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD)) {
+            List<Integer> generatedIds = new ArrayList<>();
+            for (Publisher publisher : publishers) {
+                int id = baseAdd(publisher, con);
+                generatedIds.add(id);
+            }
+            return generatedIds;
+        } catch (SQLException e) {
+            throw new DAOException("Failed to add authors", e);
+        }
+    }
+
+    public Publisher get(int id) throws DAOException {
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
+             PreparedStatement stmt = createPreparedStatementForGet(con, id);
+             ResultSet rs = stmt.executeQuery()) {
+
+            Publisher publisher = null;
+            if (rs.next()) {
+                String name = rs.getString(NAME);
+                List<Book> books = getPublisherBooks(con, id);
+
+                publisher = new Publisher(name, books.toArray(new Book[books.size()]));
+            }
+            return publisher;
+
+        } catch (SQLException e) {
+            throw new DAOException("Failed to get publisher", e);
+        }
+    }
+
+    public List<Publisher> getAll() throws DAOException {
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
+             PreparedStatement stmt = createPreparedStatementForGetAll(con);
+             ResultSet rs = stmt.executeQuery()) {
+
+            List<Publisher> publishers = new ArrayList<>();
+            while (rs.next()) {
+                int id = rs.getInt(ID);
+                String name = rs.getString(NAME);
+                List<Book> books = getPublisherBooks(con, id);
+
+                Publisher publisher = new Publisher(name, books.toArray(new Book[books.size()]));
+                publishers.add(publisher);
+            }
+            return publishers;
+
+        } catch (SQLException e) {
+            throw new DAOException("Failed to get publishers", e);
+        }
+    }
+
+    public void update(int id, String name) throws DAOException {
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
+             Statement stmt = con.createStatement()) {
+
+            String sql = createSqlForUpdate(id, name);
+            stmt.executeUpdate(sql);
+
+        } catch (SQLException e) {
+            throw new DAOException("Failed to update publisher", e);
+        }
+    }
+
+    public void delete(int id) throws DAOException {
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
+             Statement stmt = con.createStatement()) {
+
+            String format = "DELETE FROM %s WHERE %s=%s";
+            String sql = String.format(format, PUBLISHER_BOOK, PUBLISHER_ID, id);
+            stmt.executeUpdate(sql);
+
+            format = "DELETE FROM %s WHERE %s=%s";
+            sql = String.format(format, PUBLISHER, ID, id);
+            stmt.executeUpdate(sql);
+
+        } catch (SQLException e) {
+            throw new DAOException("Failed to delete publisher", e);
+        }
+    }
+
     private int baseAdd(Publisher publisher, Connection con) throws SQLException {
         try (Statement stmt = con.createStatement()) {
             stmt.executeUpdate(createSqlForAdd(publisher), Statement.RETURN_GENERATED_KEYS);
@@ -58,41 +143,6 @@ public class PublishersDAO {
         return String.format(format, PUBLISHER, NAME, name, PUBLISHER_UQ, NAME, name, ID);
     }
 
-    /**
-     * @return list of generated ids
-     */
-    public List<Integer> addAll(List<Publisher> publishers) throws DAOException {
-        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD)) {
-            List<Integer> generatedIds = new ArrayList<>();
-            for (Publisher publisher : publishers) {
-                int id = baseAdd(publisher, con);
-                generatedIds.add(id);
-            }
-            return generatedIds;
-        } catch (SQLException e) {
-            throw new DAOException("Failed to add authors", e);
-        }
-    }
-
-    public Publisher get(int id) throws DAOException {
-        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
-             PreparedStatement stmt = createPreparedStatementForGet(con, id);
-             ResultSet rs = stmt.executeQuery()) {
-
-            Publisher publisher = null;
-            if (rs.next()) {
-                String name = rs.getString(NAME);
-                List<Book> books = getPublisherBooks(con, id);
-
-                publisher = new Publisher(name, books.toArray(new Book[books.size()]));
-            }
-            return publisher;
-
-        } catch (SQLException e) {
-            throw new DAOException("Failed to get publisher", e);
-        }
-    }
-
     private PreparedStatement createPreparedStatementForGet(Connection con, int id) throws SQLException {
         String format = "SELECT %s FROM %s WHERE %s=%s";
         String sql = String.format(format, NAME, PUBLISHER, ID, id);
@@ -125,43 +175,10 @@ public class PublishersDAO {
         return con.prepareStatement(sql);
     }
 
-    public List<Publisher> getAll() throws DAOException {
-        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
-             PreparedStatement stmt = createPreparedStatementForGetAll(con);
-             ResultSet rs = stmt.executeQuery()) {
-
-            List<Publisher> publishers = new ArrayList<>();
-            while (rs.next()) {
-                int id = rs.getInt(ID);
-                String name = rs.getString(NAME);
-                List<Book> books = getPublisherBooks(con, id);
-
-                Publisher publisher = new Publisher(name, books.toArray(new Book[books.size()]));
-                publishers.add(publisher);
-            }
-            return publishers;
-
-        } catch (SQLException e) {
-            throw new DAOException("Failed to get publishers", e);
-        }
-    }
-
     private PreparedStatement createPreparedStatementForGetAll(Connection con) throws SQLException {
         String format = "SELECT %s, %s FROM %s";
         String sql = String.format(format, ID, NAME, PUBLISHER);
         return con.prepareStatement(sql);
-    }
-
-    public void update(int id, String name) throws DAOException {
-        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
-             Statement stmt = con.createStatement()) {
-
-            String sql = createSqlForUpdate(id, name);
-            stmt.executeUpdate(sql);
-
-        } catch (SQLException e) {
-            throw new DAOException("Failed to update publisher", e);
-        }
     }
 
     private String createSqlForUpdate(int id, String name) {
@@ -169,22 +186,5 @@ public class PublishersDAO {
         String format = "UPDATE %s SET %s=%s WHERE %s=%s";
 
         return String.format(format, PUBLISHER, NAME, nameStr, ID, id);
-    }
-
-    public void delete(int id) throws DAOException {
-        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
-             Statement stmt = con.createStatement()) {
-
-            String format = "DELETE FROM %s WHERE %s=%s";
-            String sql = String.format(format, PUBLISHER_BOOK, PUBLISHER_ID, id);
-            stmt.executeUpdate(sql);
-
-            format = "DELETE FROM %s WHERE %s=%s";
-            sql = String.format(format, PUBLISHER, ID, id);
-            stmt.executeUpdate(sql);
-
-        } catch (SQLException e) {
-            throw new DAOException("Failed to delete publisher", e);
-        }
     }
 }

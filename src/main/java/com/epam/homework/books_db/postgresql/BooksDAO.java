@@ -23,6 +23,97 @@ public class BooksDAO {
         }
     }
 
+    /**
+     * @return list of generated ids
+     */
+    public List<Integer> addAll(List<Book> books) throws DAOException {
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD)) {
+            List<Integer> generatedIds = new ArrayList<>();
+            for (Book book : books) {
+                int id = baseAdd(book, con);
+                generatedIds.add(id);
+            }
+            return generatedIds;
+        } catch (SQLException e) {
+            throw new DAOException("Failed to add authors", e);
+        }
+    }
+
+    public Book get(int id) throws DAOException {
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
+             PreparedStatement stmt = createPreparedStatementForGet(con, id);
+             ResultSet rs = stmt.executeQuery()) {
+
+            Book book = null;
+            if (rs.next()) {
+                String name = rs.getString(NAME);
+                Year yearOfPublication = Year.of(rs.getInt(YEAR_OF_PUBLICATION));
+                List<Author> authors = getBookAuthors(con, id);
+
+                book = new Book(name, yearOfPublication, authors.toArray(new Author[authors.size()]));
+            }
+            return book;
+
+        } catch (SQLException e) {
+            throw new DAOException("Failed to get book", e);
+        }
+    }
+
+    public List<Book> getAll() throws DAOException {
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
+             PreparedStatement stmt = createPreparedStatementForGetAll(con);
+             ResultSet rs = stmt.executeQuery()) {
+
+            List<Book> books = new ArrayList<>();
+            while (rs.next()) {
+                int id = rs.getInt(ID);
+                String name = rs.getString(NAME);
+                Year yearOfPublication = Year.of(rs.getInt(YEAR_OF_PUBLICATION));
+                List<Author> authors = getBookAuthors(con, id);
+
+                Book book = new Book(name, yearOfPublication, authors.toArray(new Author[authors.size()]));
+                books.add(book);
+            }
+            return books;
+
+        } catch (SQLException e) {
+            throw new DAOException("Failed to get books", e);
+        }
+    }
+
+    public void update(int id, String name, Year yearOfPublication) throws DAOException {
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
+             Statement stmt = con.createStatement()) {
+
+            String sql = createSqlForUpdate(id, name, yearOfPublication);
+            stmt.executeUpdate(sql);
+
+        } catch (SQLException e) {
+            throw new DAOException("Failed to update book", e);
+        }
+    }
+
+    public void delete(int id) throws DAOException {
+        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
+             Statement stmt = con.createStatement()) {
+
+            String format = "DELETE FROM %s WHERE %s=%s";
+            String sql = String.format(format, BOOK_AUTHOR, BOOK_ID, id);
+            stmt.executeUpdate(sql);
+
+            format = "DELETE FROM %s WHERE %s=%s";
+            sql = String.format(format, PUBLISHER_BOOK, BOOK_ID, id);
+            stmt.executeUpdate(sql);
+
+            format = "DELETE FROM %s WHERE %s=%s";
+            sql = String.format(format, BOOK, ID, id);
+            stmt.executeUpdate(sql);
+
+        } catch (SQLException e) {
+            throw new DAOException("Failed to delete book", e);
+        }
+    }
+
     private int baseAdd(Book book, Connection con) throws SQLException {
         try (Statement stmt = con.createStatement()) {
             stmt.executeUpdate(createSqlForAdd(book), Statement.RETURN_GENERATED_KEYS);
@@ -61,42 +152,6 @@ public class BooksDAO {
                 name, yearOfPublication, BOOK_UQ, NAME, name, ID);
     }
 
-    /**
-     * @return list of generated ids
-     */
-    public List<Integer> addAll(List<Book> books) throws DAOException {
-        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD)) {
-            List<Integer> generatedIds = new ArrayList<>();
-            for (Book book : books) {
-                int id = baseAdd(book, con);
-                generatedIds.add(id);
-            }
-            return generatedIds;
-        } catch (SQLException e) {
-            throw new DAOException("Failed to add authors", e);
-        }
-    }
-
-    public Book get(int id) throws DAOException {
-        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
-             PreparedStatement stmt = createPreparedStatementForGet(con, id);
-             ResultSet rs = stmt.executeQuery()) {
-
-            Book book = null;
-            if (rs.next()) {
-                String name = rs.getString(NAME);
-                Year yearOfPublication = Year.of(rs.getInt(YEAR_OF_PUBLICATION));
-                List<Author> authors = getBookAuthors(con, id);
-
-                book = new Book(name, yearOfPublication, authors.toArray(new Author[authors.size()]));
-            }
-            return book;
-
-        } catch (SQLException e) {
-            throw new DAOException("Failed to get book", e);
-        }
-    }
-
     private PreparedStatement createPreparedStatementForGet(Connection con, int id) throws SQLException {
         String format = "SELECT %s, %s FROM %s WHERE %s=%s";
         String sql = String.format(format, NAME, YEAR_OF_PUBLICATION, BOOK, ID, id);
@@ -129,44 +184,10 @@ public class BooksDAO {
         return con.prepareStatement(sql);
     }
 
-    public List<Book> getAll() throws DAOException {
-        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
-             PreparedStatement stmt = createPreparedStatementForGetAll(con);
-             ResultSet rs = stmt.executeQuery()) {
-
-            List<Book> books = new ArrayList<>();
-            while (rs.next()) {
-                int id = rs.getInt(ID);
-                String name = rs.getString(NAME);
-                Year yearOfPublication = Year.of(rs.getInt(YEAR_OF_PUBLICATION));
-                List<Author> authors = getBookAuthors(con, id);
-
-                Book book = new Book(name, yearOfPublication, authors.toArray(new Author[authors.size()]));
-                books.add(book);
-            }
-            return books;
-
-        } catch (SQLException e) {
-            throw new DAOException("Failed to get books", e);
-        }
-    }
-
     private PreparedStatement createPreparedStatementForGetAll(Connection con) throws SQLException {
         String format = "SELECT %s, %s, %s FROM %s";
         String sql = String.format(format, ID, NAME, YEAR_OF_PUBLICATION, BOOK);
         return con.prepareStatement(sql);
-    }
-
-    public void update(int id, String name, Year yearOfPublication) throws DAOException {
-        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
-             Statement stmt = con.createStatement()) {
-
-            String sql = createSqlForUpdate(id, name, yearOfPublication);
-            stmt.executeUpdate(sql);
-
-        } catch (SQLException e) {
-            throw new DAOException("Failed to update book", e);
-        }
     }
 
     private String createSqlForUpdate(int id, String name, Year yearOfPublication) {
@@ -174,26 +195,5 @@ public class BooksDAO {
         String format = "UPDATE %s SET %s=%s, %s=%s WHERE %s=%s";
 
         return String.format(format, BOOK, NAME, nameStr, YEAR_OF_PUBLICATION, yearOfPublication, ID, id);
-    }
-
-    public void delete(int id) throws DAOException {
-        try (Connection con = DriverManager.getConnection(URL + DB_NAME, USER, PASSWORD);
-             Statement stmt = con.createStatement()) {
-
-            String format = "DELETE FROM %s WHERE %s=%s";
-            String sql = String.format(format, BOOK_AUTHOR, BOOK_ID, id);
-            stmt.executeUpdate(sql);
-
-            format = "DELETE FROM %s WHERE %s=%s";
-            sql = String.format(format, PUBLISHER_BOOK, BOOK_ID, id);
-            stmt.executeUpdate(sql);
-
-            format = "DELETE FROM %s WHERE %s=%s";
-            sql = String.format(format, BOOK, ID, id);
-            stmt.executeUpdate(sql);
-
-        } catch (SQLException e) {
-            throw new DAOException("Failed to delete book", e);
-        }
     }
 }
