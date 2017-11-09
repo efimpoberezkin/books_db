@@ -37,16 +37,24 @@ public class Dataset {
 
         Dataset dataset = (Dataset) o;
 
-        if (!(authors.size() == dataset.authors.size() && authors.containsAll(dataset.authors))) return false;
-        if (!(books.size() == dataset.books.size() && books.containsAll(dataset.books))) return false;
-        return publishers.size() == dataset.publishers.size() && publishers.containsAll(dataset.publishers);
+        if (getAuthors() != null
+                ? !(authors.size() == dataset.authors.size() && authors.containsAll(dataset.authors))
+                : dataset.getAuthors() != null)
+            return false;
+        if (getBooks() != null
+                ? !(books.size() == dataset.books.size() && books.containsAll(dataset.books))
+                : dataset.getBooks() != null)
+            return false;
+        return getPublishers() != null
+                ? (publishers.size() == dataset.publishers.size() && publishers.containsAll(dataset.publishers))
+                : dataset.getPublishers() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = authors.hashCode();
-        result = 31 * result + books.hashCode();
-        result = 31 * result + publishers.hashCode();
+        int result = getAuthors() != null ? getAuthors().hashCode() : 0;
+        result = 31 * result + (getBooks() != null ? getBooks().hashCode() : 0);
+        result = 31 * result + (getPublishers() != null ? getPublishers().hashCode() : 0);
         return result;
     }
 }

@@ -29,14 +29,16 @@ public class Publisher {
 
         Publisher publisher = (Publisher) o;
 
-        if (!name.equals(publisher.name)) return false;
-        return books.size() == publisher.books.size() && books.containsAll(publisher.books);
+        if (getName() != null ? !getName().equals(publisher.getName()) : publisher.getName() != null) return false;
+        return books != null
+                ? (books.size() == publisher.books.size() && books.containsAll(publisher.books))
+                : publisher.books == null;
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + books.hashCode();
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (books != null ? books.hashCode() : 0);
         return result;
     }
 

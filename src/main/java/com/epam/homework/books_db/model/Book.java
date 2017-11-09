@@ -36,16 +36,19 @@ public class Book {
 
         Book book = (Book) o;
 
-        if (!name.equals(book.name)) return false;
-        if (!yearOfPublication.equals(book.yearOfPublication)) return false;
-        return authors.size() == book.authors.size() && authors.containsAll(book.authors);
+        if (getName() != null ? !getName().equals(book.getName()) : book.getName() != null) return false;
+        if (getYearOfPublication() != null ? !getYearOfPublication().equals(book.getYearOfPublication()) : book.getYearOfPublication() != null)
+            return false;
+        return getAuthors() != null
+                ? (authors.size() == book.authors.size() && authors.containsAll(book.authors))
+                : book.getAuthors() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + yearOfPublication.hashCode();
-        result = 31 * result + authors.hashCode();
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getYearOfPublication() != null ? getYearOfPublication().hashCode() : 0);
+        result = 31 * result + (getAuthors() != null ? getAuthors().hashCode() : 0);
         return result;
     }
 

@@ -45,18 +45,20 @@ public class Author {
 
         Author author = (Author) o;
 
-        if (!name.equals(author.name)) return false;
-        if (!dateOfBirth.equals(author.dateOfBirth)) return false;
-        if (dateOfDeath != null ? !dateOfDeath.equals(author.dateOfDeath) : author.dateOfDeath != null) return false;
-        return gender == author.gender;
+        if (getName() != null ? !getName().equals(author.getName()) : author.getName() != null) return false;
+        if (getDateOfBirth() != null ? !getDateOfBirth().equals(author.getDateOfBirth()) : author.getDateOfBirth() != null)
+            return false;
+        if (getDateOfDeath() != null ? !getDateOfDeath().equals(author.getDateOfDeath()) : author.getDateOfDeath() != null)
+            return false;
+        return getGender() == author.getGender();
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + dateOfBirth.hashCode();
-        result = 31 * result + (dateOfDeath != null ? dateOfDeath.hashCode() : 0);
-        result = 31 * result + gender.hashCode();
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getDateOfBirth() != null ? getDateOfBirth().hashCode() : 0);
+        result = 31 * result + (getDateOfDeath() != null ? getDateOfDeath().hashCode() : 0);
+        result = 31 * result + (getGender() != null ? getGender().hashCode() : 0);
         return result;
     }
 
