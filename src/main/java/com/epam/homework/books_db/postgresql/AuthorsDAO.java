@@ -6,7 +6,7 @@ import com.epam.homework.books_db.model.Gender;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface AuthorsDAO extends DAO<Author> {
+interface AuthorsDAO extends DAO<Author> {
 
     @Override
     int add(Author author) throws DAOException;

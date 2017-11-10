@@ -2,7 +2,7 @@ package com.epam.homework.books_db.postgresql;
 
 import java.util.List;
 
-public interface DAO<T> {
+interface DAO<T> {
 
     int add(T object) throws DAOException;
 

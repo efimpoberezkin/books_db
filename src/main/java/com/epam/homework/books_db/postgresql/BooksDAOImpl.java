@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.epam.homework.books_db.postgresql.ConstantsContainer.*;
 
-public class BooksDAOImpl implements BooksDAO {
+class BooksDAOImpl implements BooksDAO {
 
     /**
      * @return generated id

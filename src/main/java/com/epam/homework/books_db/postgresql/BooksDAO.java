@@ -5,7 +5,7 @@ import com.epam.homework.books_db.model.Book;
 import java.time.Year;
 import java.util.List;
 
-public interface BooksDAO extends DAO<Book> {
+interface BooksDAO extends DAO<Book> {
 
     @Override
     int add(Book book) throws DAOException;

@@ -4,7 +4,7 @@ import com.epam.homework.books_db.model.Publisher;
 
 import java.util.List;
 
-public interface PublishersDAO extends DAO<Publisher> {
+interface PublishersDAO extends DAO<Publisher> {
 
     @Override
     int add(Publisher publisher) throws DAOException;
